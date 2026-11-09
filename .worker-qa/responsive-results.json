@@ -1,0 +1,63 @@
+{
+  "report": [
+    {
+      "name": "Desktop: tujuh menu sidebar dan status aktif",
+      "result": "passed"
+    },
+    {
+      "name": "Dashboard: empat pintasan membuka halaman yang tepat",
+      "result": "passed"
+    },
+    {
+      "name": "Dashboard: semua enam tindakan mengisi barang yang dipilih",
+      "result": "passed"
+    },
+    {
+      "name": "Pagination sampai halaman terakhir 244–248, lalu kembali",
+      "result": "passed"
+    },
+    {
+      "name": "Kartu ringkasan dan footer notifikasi membuka rute nyata",
+      "result": "passed"
+    },
+    {
+      "name": "Responsif 360px: delapan rute tanpa overflow",
+      "result": "passed"
+    },
+    {
+      "name": "Responsif 390px: delapan rute tanpa overflow",
+      "result": "passed"
+    },
+    {
+      "name": "Responsif 768px: delapan rute tanpa overflow",
+      "result": "passed"
+    },
+    {
+      "name": "Responsif 1024px: delapan rute tanpa overflow",
+      "result": "passed"
+    },
+    {
+      "name": "Mobile: tujuh menu dapat dibuka/ditutup tanpa menyisakan sidebar",
+      "result": "passed"
+    },
+    {
+      "name": "Mobile: penerimaan invalid, simpan, dan buka stok hasil penerimaan",
+      "result": "passed"
+    },
+    {
+      "name": "Mobile: pemeriksaan dan penyesuaian fisik sampai berhasil",
+      "result": "passed"
+    },
+    {
+      "name": "Mobile: penyesuaian kadaluwarsa, notifikasi, pencarian, dan modal",
+      "result": "passed"
+    },
+    {
+      "name": "Halaman role sebelumnya tetap HTTP 200",
+      "result": "passed"
+    }
+  ],
+  "errors": [],
+  "badResponses": [],
+  "base": "http://127.0.0.1:3006"
+}

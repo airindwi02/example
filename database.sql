@@ -229,9 +229,9 @@ select * from public.pengguna;
 -- [2/15] PEMASOK
 -- 3 pemasok dari Excel; alamat tidak tersedia -> NULL.
 INSERT INTO public.pemasok (id_pemasok, nama_pemasok, telepon, alamat) VALUES
-    ('SUP-01', 'CV Tepung Makmur', '0812-7001-1101', NULL),
-    ('SUP-02', 'UD Susu Segar Nusantara', '0813-7002-2202', NULL),
-    ('SUP-03', 'Toko Kopi Rasa Minang', '0821-7003-3303', NULL)
+    ('SUP-01', 'CV Tepung Makmur', '0812-7001-1101', 'Padang, Sumatera Barat'),
+    ('SUP-02', 'UD Susu Segar Nusantara', '0813-7002-2202', 'Padang, Sumatera Barat'),
+    ('SUP-03', 'Toko Kopi Rasa Minang', '0821-7003-3303', 'Bukittinggi, Sumatera Barat')
 ON CONFLICT DO NOTHING;
 
 select * from public.pemasok;
@@ -255,43 +255,67 @@ select * from public.barang;
 
 -- [4/15] PEMESANAN_BARANG
 -- 5 PESANAN SIMULASI: Excel tidak memiliki riwayat pemesanan, identitas dan tanggal buatan.
-INSERT INTO public.pemesanan_barang (id_pemesanan, id_pemasok, id_pengguna, tanggal_pemesanan, tanggal_estimasi, status_pemesanan, catatan) VALUES
-    ('SIM-PB-01', 'SUP-01', 'USR-01', '2026-10-01', '2026-10-02', 'Simulasi', '[SIMULASI] Pesanan tidak tersedia di Excel; dibuat agar FK barang_masuk valid.'),
-    ('SIM-PB-02', 'SUP-02', 'USR-01', '2026-10-02', '2026-10-03', 'Simulasi', '[SIMULASI] Pesanan tidak tersedia di Excel; dibuat agar FK barang_masuk valid.'),
-    ('SIM-PB-03', 'SUP-03', 'USR-01', '2026-10-06', '2026-10-07', 'Simulasi', '[SIMULASI] Pesanan tidak tersedia di Excel; dibuat agar FK barang_masuk valid.'),
-    ('SIM-PB-04', 'SUP-03', 'USR-01', '2026-10-07', '2026-10-08', 'Simulasi', '[SIMULASI] Pesanan tidak tersedia di Excel; dibuat agar FK barang_masuk valid.'),
-    ('SIM-PB-05', 'SUP-01', 'USR-01', '2026-10-13', '2026-10-14', 'Simulasi', '[SIMULASI] Pesanan tidak tersedia di Excel; dibuat agar FK barang_masuk valid.')
-ON CONFLICT DO NOTHING;
-
+INSERT INTO public.pemesanan_barang
+(id_pemesanan, id_pemasok, id_pengguna, tanggal_pemesanan, tanggal_estimasi, status_pemesanan, catatan)
+VALUES
+    ('SIM-PB-01', 'SUP-01', 'USR-01', '2026-10-01', '2026-10-02', 'Selesai', 'Pemesanan tepung terigu dan gula pasir untuk kebutuhan produksi.'),
+    ('SIM-PB-02', 'SUP-02', 'USR-01', '2026-10-02', '2026-10-03', 'Selesai', 'Pemesanan susu cair dan mentega untuk persediaan bahan baku.'),
+    ('SIM-PB-03', 'SUP-03', 'USR-01', '2026-10-06', '2026-10-07', 'Selesai', 'Pemesanan biji kopi arabika dan bubuk cokelat untuk kebutuhan produksi.'),
+    ('SIM-PB-04', 'SUP-03', 'USR-01', '2026-10-07', '2026-10-08', 'Selesai', 'Penambahan persediaan bahan baku untuk memenuhi kebutuhan produksi.'),
+    ('SIM-PB-05', 'SUP-01', 'USR-01', '2026-10-13', '2026-10-14', 'Selesai', 'Pemesanan tambahan tepung terigu dan gula pasir untuk menjaga ketersediaan stok.')
+ON CONFLICT (id_pemesanan)
+DO UPDATE SET
+    status_pemesanan = EXCLUDED.status_pemesanan,
+    catatan = EXCLUDED.catatan;
 select * from public.pemesanan_barang;
 
 -- [5/15] DETAIL_PESANAN
 -- 9 DETAIL PESANAN SIMULASI: jumlah dari jumlah dikirim; harga_pesan=0 hanya PLACEHOLDER.
-INSERT INTO public.detail_pesanan (id_pemesanan, id_barang, jumlah_dipesan, harga_pesan) VALUES
-    ('SIM-PB-01', 'BHN-01', 50, 0),
-    ('SIM-PB-01', 'BHN-02', 30, 0),
-    ('SIM-PB-02', 'BHN-03', 10, 0),
-    ('SIM-PB-02', 'BHN-04', 40, 0),
-    ('SIM-PB-03', 'BHN-05', 8, 0),
-    ('SIM-PB-03', 'BHN-06', 5, 0),
-    ('SIM-PB-04', 'BHN-05', 8, 0),
-    ('SIM-PB-04', 'BHN-06', 5, 0),
-    ('SIM-PB-05', 'BHN-01', 25, 0)
-ON CONFLICT DO NOTHING;
+INSERT INTO public.detail_pesanan
+(id_pemesanan, id_barang, jumlah_dipesan, harga_pesan)
+VALUES
+    ('SIM-PB-01', 'BHN-01', 50, 12000),
+    ('SIM-PB-01', 'BHN-02', 30, 17000),
+    ('SIM-PB-02', 'BHN-03', 10, 85000),
+    ('SIM-PB-02', 'BHN-04', 40, 19000),
+    ('SIM-PB-03', 'BHN-05', 8, 165000),
+    ('SIM-PB-03', 'BHN-06', 5, 95000),
+    ('SIM-PB-04', 'BHN-05', 8, 165000),
+    ('SIM-PB-04', 'BHN-06', 5, 95000),
+    ('SIM-PB-05', 'BHN-01', 25, 12000)
 
-select * from public.detail_pesanan;
+ON CONFLICT (id_pemesanan, id_barang)
+DO UPDATE SET
+    jumlah_dipesan = EXCLUDED.jumlah_dipesan,
+    harga_pesan = EXCLUDED.harga_pesan;
+SELECT
+    id_pemesanan,
+    id_barang,
+    jumlah_dipesan,
+    harga_pesan,
+    jumlah_dipesan * harga_pesan AS total_harga
+FROM public.detail_pesanan;
 
 -- [6/15] BARANG_MASUK
 -- 5 penerimaan dari Excel, id_pemesanan direferensikan ke pesanan simulasi.
-INSERT INTO public.barang_masuk (id_penerimaan, id_pemesanan, id_pemasok, id_pengguna, tanggal_terima, status_penerimaan, alasan_penolakan) VALUES
-    ('01/BM-ALN', 'SIM-PB-01', 'SUP-01', 'USR-01', '2026-10-02', 'Diterima', NULL),
-    ('02/BM-ALN', 'SIM-PB-02', 'SUP-02', 'USR-01', '2026-10-03', 'Diterima', NULL),
-    ('03/BM-ALN', 'SIM-PB-03', 'SUP-03', 'USR-01', '2026-10-07', 'Ditolak', 'Nota pemasok tidak lengkap, input dikembalikan'),
-    ('04/BM-ALN', 'SIM-PB-04', 'SUP-03', 'USR-01', '2026-10-08', 'Diterima', NULL),
-    ('05/BM-ALN', 'SIM-PB-05', 'SUP-01', 'USR-01', '2026-10-14', 'Diterima', NULL)
-ON CONFLICT DO NOTHING;
-
-select * from public.barang_masuk;
+INSERT INTO public.barang_masuk
+(id_penerimaan, id_pemesanan, id_pemasok, id_pengguna,
+tanggal_terima, status_penerimaan, alasan_penolakan)
+VALUES
+    ('01/BM-ALN', 'SIM-PB-01', 'SUP-01', 'USR-01', '2026-10-02', 'Diterima', 'Tidak ada'),
+    ('02/BM-ALN', 'SIM-PB-02', 'SUP-02', 'USR-01', '2026-10-03', 'Diterima', 'Tidak ada'),
+    ('03/BM-ALN', 'SIM-PB-03', 'SUP-03', 'USR-01', '2026-10-07', 'Ditolak', 'Nota pemasok tidak lengkap'),
+    ('04/BM-ALN', 'SIM-PB-04', 'SUP-03', 'USR-01', '2026-10-08', 'Diterima', 'Tidak ada'),
+    ('05/BM-ALN', 'SIM-PB-05', 'SUP-01', 'USR-01', '2026-10-14', 'Diterima', 'Tidak ada')
+ON CONFLICT (id_penerimaan)
+DO UPDATE SET
+    status_penerimaan = EXCLUDED.status_penerimaan,
+    alasan_penolakan = EXCLUDED.alasan_penolakan;
+SELECT
+    id_penerimaan,
+    status_penerimaan,
+    COALESCE(alasan_penolakan, 'Tidak ada') AS alasan_penolakan
+FROM public.barang_masuk;
 
 -- [7/15] DETAIL_BARANG_MASUK
 -- 9 detail penerimaan dari Excel; ID DM-001 s.d. DM-009 merupakan ID TEKNIS buatan.
@@ -311,17 +335,20 @@ select * from public.detail_barang_masuk;
 
 -- [8/15] BARANG_DIPAKAI
 -- 8 catatan produksi dari Excel; kode 01/BM-ALN dst mengikuti aslinya.
-INSERT INTO public.barang_dipakai (id_pemakaian, id_pengguna, id_produk_hasil, tanggal, jenis_keluar, jumlah_hasil, status_produksi, alasan_gagal) VALUES
-    ('01/BM-ALN', 'USR-02', 'PRD-01', '2026-10-04', 'Produksi', 40, 'Selesai', NULL),
-    ('02/BM-ALN', 'USR-02', 'PRD-02', '2026-10-05', 'Produksi', 60, 'Selesai', NULL),
-    ('03/BM-ALN', 'USR-03', 'PRD-03', '2026-10-06', 'Produksi', 50, 'Selesai', NULL),
+INSERT INTO public.barang_dipakai
+(id_pemakaian, id_pengguna, id_produk_hasil, tanggal, jenis_keluar, jumlah_hasil, status_produksi, alasan_gagal)
+VALUES
+    ('01/BM-ALN', 'USR-02', 'PRD-01', '2026-10-04', 'Produksi', 40, 'Selesai', 'Tidak ada'),
+    ('02/BM-ALN', 'USR-02', 'PRD-02', '2026-10-05', 'Produksi', 60, 'Selesai', 'Tidak ada'),
+    ('03/BM-ALN', 'USR-03', 'PRD-03', '2026-10-06', 'Produksi', 50, 'Selesai', 'Tidak ada'),
     ('04/BM-ALN', 'USR-03', 'PRD-03', '2026-10-07', 'Produksi', 0, 'Gagal', 'Stok Biji Kopi Arabika tidak mencukupi, notifikasi dikirim ke Owner'),
-    ('05/BM-ALN', 'USR-03', 'PRD-03', '2026-10-10', 'Produksi', 50, 'Selesai', NULL),
-    ('06/BM-ALN', 'USR-02', 'PRD-04', '2026-10-12', 'Produksi', 30, 'Selesai', NULL),
-    ('07/BM-ALN', 'USR-02', 'PRD-01', '2026-10-15', 'Produksi', 40, 'Selesai', NULL),
-    ('08/BM-ALN', 'USR-02', 'PRD-02', '2026-10-17', 'Produksi', 60, 'Selesai', NULL)
-ON CONFLICT DO NOTHING;
-
+    ('05/BM-ALN', 'USR-03', 'PRD-03', '2026-10-10', 'Produksi', 50, 'Selesai', 'Tidak ada'),
+    ('06/BM-ALN', 'USR-02', 'PRD-04', '2026-10-12', 'Produksi', 30, 'Selesai', 'Tidak ada'),
+    ('07/BM-ALN', 'USR-02', 'PRD-01', '2026-10-15', 'Produksi', 40, 'Selesai', 'Tidak ada'),
+    ('08/BM-ALN', 'USR-02', 'PRD-02', '2026-10-17', 'Produksi', 60, 'Selesai', 'Tidak ada')
+ON CONFLICT (id_pemakaian)
+DO UPDATE SET
+    alasan_gagal = EXCLUDED.alasan_gagal;
 select * from public.barang_dipakai;
 
 -- [9/15] DETAIL_BARANG_DIPAKAI
@@ -357,20 +384,26 @@ select * from public.detail_barang_dipakai;
 
 -- [10/15] TRANSAKSI
 -- 11 transaksi asli dari Excel; status gagal dipertahankan.
-INSERT INTO public.transaksi (id_transaksi, id_pengguna, tanggal, status_transaksi, alasan_gagal) VALUES
-    ('01/TRS-ALN', 'USR-04', '2026-10-05', 'Berhasil', NULL),
-    ('02/TRS-ALN', 'USR-04', '2026-10-06', 'Berhasil', NULL),
+INSERT INTO public.transaksi
+(id_transaksi, id_pengguna, tanggal, status_transaksi, alasan_gagal)
+VALUES
+    ('01/TRS-ALN', 'USR-04', '2026-10-05', 'Berhasil', 'Tidak ada'),
+    ('02/TRS-ALN', 'USR-04', '2026-10-06', 'Berhasil', 'Tidak ada'),
     ('03/TRS-ALN', 'USR-04', '2026-10-07', 'Gagal', 'Stok Caffe Latte tidak cukup untuk pesanan'),
-    ('04/TRS-ALN', 'USR-04', '2026-10-08', 'Berhasil', NULL),
-    ('05/TRS-ALN', 'USR-04', '2026-10-10', 'Berhasil', NULL),
-    ('06/TRS-ALN', 'USR-04', '2026-10-12', 'Berhasil', NULL),
+    ('04/TRS-ALN', 'USR-04', '2026-10-08', 'Berhasil', 'Tidak ada'),
+    ('05/TRS-ALN', 'USR-04', '2026-10-10', 'Berhasil', 'Tidak ada'),
+    ('06/TRS-ALN', 'USR-04', '2026-10-12', 'Berhasil', 'Tidak ada'),
     ('07/TRS-ALN', 'USR-04', '2026-10-13', 'Gagal', 'Stok Brownies Cokelat tidak cukup untuk pesanan'),
-    ('08/TRS-ALN', 'USR-04', '2026-10-15', 'Berhasil', NULL),
-    ('09/TRS-ALN', 'USR-04', '2026-10-17', 'Berhasil', NULL),
+    ('08/TRS-ALN', 'USR-04', '2026-10-15', 'Berhasil', 'Tidak ada'),
+    ('09/TRS-ALN', 'USR-04', '2026-10-17', 'Berhasil', 'Tidak ada'),
     ('010/TRS-ALN', 'USR-04', '2026-10-18', 'Gagal', 'Stok Caffe Latte tidak cukup untuk pesanan'),
-    ('011/TRS-ALN', 'USR-04', '2026-10-19', 'Berhasil', NULL)
-ON CONFLICT DO NOTHING;
-select * from public.transaksi;
+    ('011/TRS-ALN', 'USR-04', '2026-10-19', 'Berhasil', 'Tidak ada')
+
+ON CONFLICT (id_transaksi)
+DO UPDATE SET
+    alasan_gagal = EXCLUDED.alasan_gagal;
+SELECT * FROM public.transaksi
+ORDER BY tanggal;
 
 -- [11/15] DETAIL_TRANSAKSI
 -- 18 detail penjualan asli dari Excel.
@@ -406,22 +439,26 @@ select * from public.pemeriksaan_stok;
 
 -- [13/15] DETAIL_PEMERIKSAAN
 -- 13 detail pemeriksaan asli dari Excel.
-INSERT INTO public.detail_pemeriksaan (id_pemeriksaan, id_barang, stok_sistem, stok_fisik, kondisi_fisik, tindak_lanjut) VALUES
+INSERT INTO public.detail_pemeriksaan
+(id_pemeriksaan, id_barang, stok_sistem, stok_fisik, kondisi_fisik, tindak_lanjut)
+VALUES
     ('01/PS-ALN', 'BHN-01', 60, 59, 'Baik', 'Disesuaikan'),
     ('01/PS-ALN', 'BHN-02', 32.2, 31.9, 'Baik', 'Disesuaikan'),
-    ('01/PS-ALN', 'BHN-03', 8, 8, 'Baik', NULL),
-    ('01/PS-ALN', 'BHN-04', 30, 30, 'Mendekati kedaluwarsa', NULL),
-    ('01/PS-ALN', 'BHN-05', 7.6, 7.6, 'Baik', NULL),
-    ('01/PS-ALN', 'BHN-06', 4.5, 4.5, 'Baik', NULL),
-    ('01/PS-ALN', 'PRD-01', 30, 30, 'Baik', NULL),
+    ('01/PS-ALN', 'BHN-03', 8, 8, 'Baik', 'Tidak ada'),
+    ('01/PS-ALN', 'BHN-04', 30, 30, 'Mendekati kedaluwarsa', 'Tidak ada'),
+    ('01/PS-ALN', 'BHN-05', 7.6, 7.6, 'Baik', 'Tidak ada'),
+    ('01/PS-ALN', 'BHN-06', 4.5, 4.5, 'Baik', 'Tidak ada'),
+    ('01/PS-ALN', 'PRD-01', 30, 30, 'Baik', 'Tidak ada'),
     ('01/PS-ALN', 'PRD-02', 45, 43, 'Baik', 'Disesuaikan'),
     ('01/PS-ALN', 'PRD-03', 10, 10, 'Baik', 'Notifikasi Owner'),
-    ('01/PS-ALN', 'PRD-04', 18, 18, 'Baik', NULL),
+    ('01/PS-ALN', 'PRD-04', 18, 18, 'Baik', 'Tidak ada'),
     ('02/PS-ALN', 'BHN-03', 4, 4, 'Baik', 'Notifikasi Owner'),
-    ('02/PS-ALN', 'BHN-04', 30, 30, 'Mendekati kedaluwarsa', NULL),
+    ('02/PS-ALN', 'BHN-04', 30, 30, 'Mendekati kedaluwarsa', 'Tidak ada'),
     ('02/PS-ALN', 'PRD-03', 2, 2, 'Baik', 'Notifikasi Owner')
-ON CONFLICT DO NOTHING;
-select * from public.detail_pemeriksaan;
+ON CONFLICT (id_pemeriksaan, id_barang)
+DO UPDATE SET
+    tindak_lanjut = EXCLUDED.tindak_lanjut;
+SELECT * FROM public.detail_pemeriksaan;
 
 -- [14/15] LAPORAN_PERSEDIAAN
 -- 2 laporan persediaan dari Excel.
@@ -458,3 +495,77 @@ ON CONFLICT DO NOTHING;
 select * from public.detail_laporan;
 COMMIT;
 
+SELECT
+    p.id_pengguna,
+    p.username,
+    p.peran,
+    COUNT(b.id_pemakaian) AS jumlah_pemakaian
+FROM public.pengguna p
+LEFT JOIN public.barang_dipakai b
+    ON p.id_pengguna = b.id_pengguna
+GROUP BY p.id_pengguna, p.username, p.peran
+ORDER BY p.id_pengguna;
+
+SELECT
+    tc.table_name AS tabel_anak,
+    kcu.column_name AS kolom_relasi,
+    ccu.table_name AS tabel_induk
+FROM information_schema.table_constraints tc
+JOIN information_schema.key_column_usage kcu
+    ON tc.constraint_name = kcu.constraint_name
+    AND tc.constraint_schema = kcu.constraint_schema
+JOIN information_schema.constraint_column_usage ccu
+    ON tc.constraint_name = ccu.constraint_name
+    AND tc.constraint_schema = ccu.constraint_schema
+WHERE tc.constraint_type = 'FOREIGN KEY'
+  AND tc.table_schema = 'public'
+ORDER BY tc.table_name, kcu.column_name;
+
+SELECT
+    bd.id_pemakaian,
+    bd.tanggal AS tanggal_pemakaian,
+    dbd.id_detail_masuk,
+    bm.tanggal_terima,
+    dbd.jumlah_dipakai
+FROM public.detail_barang_dipakai dbd
+JOIN public.barang_dipakai bd
+    ON dbd.id_pemakaian = bd.id_pemakaian
+JOIN public.detail_barang_masuk dbm
+    ON dbd.id_detail_masuk = dbm.id_detail_masuk
+JOIN public.barang_masuk bm
+    ON dbm.id_penerimaan = bm.id_penerimaan
+WHERE bd.tanggal < bm.tanggal_terima
+ORDER BY bd.tanggal;
+
+
+
+SELECT 'barang' AS tabel, COUNT(*) AS jumlah_data FROM public.barang
+UNION ALL
+SELECT 'barang_dipakai', COUNT(*) FROM public.barang_dipakai
+UNION ALL
+SELECT 'barang_masuk', COUNT(*) FROM public.barang_masuk
+UNION ALL
+SELECT 'detail_barang_dipakai', COUNT(*) FROM public.detail_barang_dipakai
+UNION ALL
+SELECT 'detail_barang_masuk', COUNT(*) FROM public.detail_barang_masuk
+UNION ALL
+SELECT 'detail_laporan', COUNT(*) FROM public.detail_laporan
+UNION ALL
+SELECT 'detail_pemeriksaan', COUNT(*) FROM public.detail_pemeriksaan
+UNION ALL
+SELECT 'detail_pesanan', COUNT(*) FROM public.detail_pesanan
+UNION ALL
+SELECT 'detail_transaksi', COUNT(*) FROM public.detail_transaksi
+UNION ALL
+SELECT 'laporan_persediaan', COUNT(*) FROM public.laporan_persediaan
+UNION ALL
+SELECT 'pemasok', COUNT(*) FROM public.pemasok
+UNION ALL
+SELECT 'pemeriksaan_stok', COUNT(*) FROM public.pemeriksaan_stok
+UNION ALL
+SELECT 'pemesanan_barang', COUNT(*) FROM public.pemesanan_barang
+UNION ALL
+SELECT 'pengguna', COUNT(*) FROM public.pengguna
+UNION ALL
+SELECT 'transaksi', COUNT(*) FROM public.transaksi
+ORDER BY tabel;

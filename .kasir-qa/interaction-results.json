@@ -1,0 +1,20 @@
+{
+  "base": "http://localhost:3008",
+  "results": [
+    "Dashboard, keluar Batal, dropdown, tandai dibaca, seluruh notifikasi: lulus",
+    "Kartu Stok Rendah membuka dua produk rendah",
+    "Cari/filter produk, tambah, hapus dan keranjang kosong: lulus",
+    "3 Croissant + 2 Brownies = Rp148.000; kurang/negatif/teks/overflow ditolak; kembalian Rp2.000: lulus",
+    "Tambah melebihi stok dibatalkan; stok tetap 8, selesai diblokir; koreksi menghapus error; pecahan ditolak",
+    "Konfirmasi/Ubah tidak mengurangi stok; keranjang tetap setelah pindah route",
+    "Simpan diklik dua kali: satu transaksi, Croissant 8→5 dan Brownies 12→10",
+    "Dashboard bertambah 5 item dan riwayat bertambah tepat satu; memilih baris memperbarui rincian",
+    "Filter periode, pagination, pencarian riwayat dan empty state: lulus",
+    "Cetak Struk memanggil window.print, media cetak hanya struk; PDF struk dihasilkan",
+    "Pencarian global memakai state terbaru; hasil produk/penjualan membuka detail yang benar",
+    "Hasil kosong, hapus satu/semua riwayat pencarian: lulus",
+    "Transaksi Baru mereset keranjang; QRIS menerima total tepat dan tidak memberi kembalian palsu",
+    "Modal keluar: fokus terjaga, Escape/Batal menutup, Ya keluar menuju login"
+  ],
+  "errors": []
+}

@@ -1,8 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Get a free hosted Postgres database in seconds: `npx create-db`
-
 generator client {
   provider = "prisma-client"
   output   = "../app/generated/prisma"
@@ -10,4 +5,208 @@ generator client {
 
 datasource db {
   provider = "postgresql"
+}
+
+model barang {
+  harga_jual            Decimal?                @db.Decimal(12, 2)
+  id_barang             String                  @id(map: "pk_barang") @db.VarChar(10)
+  nama_barang           String                  @db.VarChar(50)
+  satuan                String                  @db.VarChar(10)
+  jenis_barang          String                  @db.VarChar(15)
+  stok_minimum          Decimal                 @db.Decimal(10, 2)
+  stok_saat_ini         Decimal                 @db.Decimal(10, 2)
+  barang_dipakai        barang_dipakai[]
+  detail_barang_dipakai detail_barang_dipakai[]
+  detail_barang_masuk   detail_barang_masuk[]
+  detail_laporan        detail_laporan[]
+  detail_pemeriksaan    detail_pemeriksaan[]
+  detail_pesanan        detail_pesanan[]
+  detail_transaksi      detail_transaksi[]
+}
+
+model barang_dipakai {
+  id_pemakaian          String                  @id(map: "pk_barang_dipakai") @db.VarChar(15)
+  id_pengguna           String                  @db.VarChar(10)
+  id_produk_hasil       String                  @db.VarChar(10)
+  tanggal               DateTime                @db.Date
+  jenis_keluar          String                  @db.VarChar(20)
+  jumlah_hasil          Decimal                 @db.Decimal(10, 2)
+  status_produksi       String                  @db.VarChar(10)
+  alasan_gagal          String?                 @db.VarChar(255)
+  pengguna              pengguna                @relation(fields: [id_pengguna], references: [id_pengguna], onDelete: NoAction, onUpdate: NoAction, map: "fk_barang_dipakai_id_pengguna")
+  barang                barang                  @relation(fields: [id_produk_hasil], references: [id_barang], onDelete: NoAction, onUpdate: NoAction, map: "fk_barang_dipakai_id_produk_hasil")
+  detail_barang_dipakai detail_barang_dipakai[]
+}
+
+model barang_masuk {
+  id_penerimaan       String                @id(map: "pk_barang_masuk") @db.VarChar(15)
+  id_pemesanan        String                @db.VarChar(15)
+  id_pemasok          String                @db.VarChar(10)
+  id_pengguna         String                @db.VarChar(10)
+  tanggal_terima      DateTime              @db.Date
+  status_penerimaan   String                @db.VarChar(10)
+  alasan_penolakan    String?               @db.VarChar(255)
+  pemasok             pemasok               @relation(fields: [id_pemasok], references: [id_pemasok], onDelete: NoAction, onUpdate: NoAction, map: "fk_barang_masuk_id_pemasok")
+  pemesanan_barang    pemesanan_barang      @relation(fields: [id_pemesanan], references: [id_pemesanan], onDelete: NoAction, onUpdate: NoAction, map: "fk_barang_masuk_id_pemesanan")
+  pengguna            pengguna              @relation(fields: [id_pengguna], references: [id_pengguna], onDelete: NoAction, onUpdate: NoAction, map: "fk_barang_masuk_id_pengguna")
+  detail_barang_masuk detail_barang_masuk[]
+}
+
+model detail_barang_dipakai {
+  id_pemakaian        String              @db.VarChar(15)
+  id_detail_masuk     String              @db.VarChar(15)
+  id_barang           String              @db.VarChar(10)
+  jumlah_diminta      Decimal             @db.Decimal(10, 2)
+  stok_tersedia       Decimal             @db.Decimal(10, 2)
+  jumlah_dipakai      Decimal             @db.Decimal(10, 2)
+  barang              barang              @relation(fields: [id_barang], references: [id_barang], onDelete: NoAction, onUpdate: NoAction, map: "fk_detail_barang_dipakai_id_barang")
+  detail_barang_masuk detail_barang_masuk @relation(fields: [id_detail_masuk], references: [id_detail_masuk], onDelete: NoAction, onUpdate: NoAction, map: "fk_detail_barang_dipakai_id_detail_masuk")
+  barang_dipakai      barang_dipakai      @relation(fields: [id_pemakaian], references: [id_pemakaian], onDelete: NoAction, onUpdate: NoAction, map: "fk_detail_barang_dipakai_id_pemakaian")
+
+  @@id([id_pemakaian, id_detail_masuk], map: "pk_detail_barang_dipakai")
+}
+
+model detail_barang_masuk {
+  id_detail_masuk       String                  @id(map: "pk_detail_barang_masuk") @db.VarChar(15)
+  id_penerimaan         String                  @db.VarChar(15)
+  id_barang             String                  @db.VarChar(10)
+  jumlah_dikirim        Decimal                 @db.Decimal(10, 2)
+  jumlah_diterima       Decimal                 @db.Decimal(10, 2)
+  tanggal_kedaluwarsa   DateTime?               @db.Date
+  kondisi               String                  @db.VarChar(20)
+  detail_barang_dipakai detail_barang_dipakai[]
+  barang                barang                  @relation(fields: [id_barang], references: [id_barang], onDelete: NoAction, onUpdate: NoAction, map: "fk_detail_barang_masuk_id_barang")
+  barang_masuk          barang_masuk            @relation(fields: [id_penerimaan], references: [id_penerimaan], onDelete: NoAction, onUpdate: NoAction, map: "fk_detail_barang_masuk_id_penerimaan")
+}
+
+model detail_laporan {
+  id_laporan         String             @db.VarChar(15)
+  id_barang          String             @db.VarChar(10)
+  stok_awal          Decimal            @db.Decimal(10, 2)
+  jumlah_masuk       Decimal            @db.Decimal(10, 2)
+  jumlah_keluar      Decimal            @db.Decimal(10, 2)
+  penyesuaian        Decimal            @db.Decimal(10, 2)
+  stok_akhir         Decimal            @db.Decimal(10, 2)
+  barang             barang             @relation(fields: [id_barang], references: [id_barang], onDelete: NoAction, onUpdate: NoAction, map: "fk_detail_laporan_id_barang")
+  laporan_persediaan laporan_persediaan @relation(fields: [id_laporan], references: [id_laporan], onDelete: NoAction, onUpdate: NoAction, map: "fk_detail_laporan_id_laporan")
+
+  @@id([id_laporan, id_barang], map: "pk_detail_laporan")
+}
+
+model detail_pemeriksaan {
+  id_pemeriksaan   String           @db.VarChar(15)
+  id_barang        String           @db.VarChar(10)
+  stok_sistem      Decimal          @db.Decimal(10, 2)
+  stok_fisik       Decimal          @db.Decimal(10, 2)
+  kondisi_fisik    String           @db.VarChar(30)
+  tindak_lanjut    String?          @db.VarChar(30)
+  barang           barang           @relation(fields: [id_barang], references: [id_barang], onDelete: NoAction, onUpdate: NoAction, map: "fk_detail_pemeriksaan_id_barang")
+  pemeriksaan_stok pemeriksaan_stok @relation(fields: [id_pemeriksaan], references: [id_pemeriksaan], onDelete: NoAction, onUpdate: NoAction, map: "fk_detail_pemeriksaan_id_pemeriksaan")
+
+  @@id([id_pemeriksaan, id_barang], map: "pk_detail_pemeriksaan")
+}
+
+model detail_pesanan {
+  id_pemesanan     String           @db.VarChar(15)
+  id_barang        String           @db.VarChar(10)
+  jumlah_dipesan   Decimal          @db.Decimal(10, 2)
+  harga_pesan      Decimal          @db.Decimal(12, 2)
+  barang           barang           @relation(fields: [id_barang], references: [id_barang], onDelete: NoAction, onUpdate: NoAction, map: "fk_detail_pesanan_id_barang")
+  pemesanan_barang pemesanan_barang @relation(fields: [id_pemesanan], references: [id_pemesanan], onDelete: NoAction, onUpdate: NoAction, map: "fk_detail_pesanan_id_pemesanan")
+
+  @@id([id_pemesanan, id_barang], map: "pk_detail_pesanan")
+}
+
+model detail_transaksi {
+  id_transaksi   String    @db.VarChar(15)
+  id_barang      String    @db.VarChar(10)
+  jumlah_dipesan Decimal   @db.Decimal(10, 2)
+  stok_tersedia  Decimal   @db.Decimal(10, 2)
+  jumlah_terjual Decimal   @db.Decimal(10, 2)
+  harga          Decimal   @db.Decimal(12, 2)
+  barang         barang    @relation(fields: [id_barang], references: [id_barang], onDelete: NoAction, onUpdate: NoAction, map: "fk_detail_transaksi_id_barang")
+  transaksi      transaksi @relation(fields: [id_transaksi], references: [id_transaksi], onDelete: NoAction, onUpdate: NoAction, map: "fk_detail_transaksi_id_transaksi")
+
+  @@id([id_transaksi, id_barang], map: "pk_detail_transaksi")
+}
+
+model laporan_persediaan {
+  id_laporan     String           @id(map: "pk_laporan_persediaan") @db.VarChar(15)
+  id_pengguna    String           @db.VarChar(10)
+  tanggal        DateTime         @db.Date
+  periode_awal   DateTime         @db.Date
+  periode_akhir  DateTime         @db.Date
+  detail_laporan detail_laporan[]
+  pengguna       pengguna         @relation(fields: [id_pengguna], references: [id_pengguna], onDelete: NoAction, onUpdate: NoAction, map: "fk_laporan_persediaan_id_pengguna")
+}
+
+model pemasok {
+  id_pemasok       String             @id(map: "pk_pemasok") @db.VarChar(10)
+  nama_pemasok     String             @db.VarChar(50)
+  telepon          String             @db.VarChar(20)
+  alamat           String?            @db.VarChar(255)
+  barang_masuk     barang_masuk[]
+  pemesanan_barang pemesanan_barang[]
+}
+
+model pemeriksaan_stok {
+  id_pemeriksaan     String               @id(map: "pk_pemeriksaan_stok") @db.VarChar(15)
+  id_pengguna        String               @db.VarChar(10)
+  tanggal            DateTime             @db.Date
+  detail_pemeriksaan detail_pemeriksaan[]
+  pengguna           pengguna             @relation(fields: [id_pengguna], references: [id_pengguna], onDelete: NoAction, onUpdate: NoAction, map: "fk_pemeriksaan_stok_id_pengguna")
+}
+
+model pemesanan_barang {
+  id_pemesanan      String           @id(map: "pk_pemesanan_barang") @db.VarChar(15)
+  id_pemasok        String           @db.VarChar(10)
+  id_pengguna       String           @db.VarChar(10)
+  tanggal_pemesanan DateTime         @db.Date
+  tanggal_estimasi  DateTime         @db.Date
+  status_pemesanan  String           @db.VarChar(20)
+  catatan           String?          @db.VarChar(255)
+  barang_masuk      barang_masuk[]
+  detail_pesanan    detail_pesanan[]
+  pemasok           pemasok          @relation(fields: [id_pemasok], references: [id_pemasok], onDelete: NoAction, onUpdate: NoAction, map: "fk_pemesanan_barang_id_pemasok")
+  pengguna          pengguna         @relation(fields: [id_pengguna], references: [id_pengguna], onDelete: NoAction, onUpdate: NoAction, map: "fk_pemesanan_barang_id_pengguna")
+}
+
+model pengguna {
+  id_pengguna        String               @id(map: "pk_pengguna") @db.VarChar(10)
+  nama_pengguna      String               @db.VarChar(50)
+  username           String               @unique(map: "uq_pengguna_username") @db.VarChar(20)
+  password_hash      String               @db.VarChar(255)
+  peran              String               @db.VarChar(20)
+  nomor_hp           String?              @db.VarChar(32)
+  email              String?              @db.VarChar(254)
+  status_akun        String               @default("PENDING") @db.VarChar(10)
+  diputuskan_oleh    String?              @db.VarChar(10)
+  diputuskan_pada    DateTime?            @db.Timestamptz(6)
+  barang_dipakai     barang_dipakai[]
+  barang_masuk       barang_masuk[]
+  laporan_persediaan laporan_persediaan[]
+  pemeriksaan_stok   pemeriksaan_stok[]
+  pemesanan_barang   pemesanan_barang[]
+  pengguna           pengguna?            @relation("penggunaTopengguna", fields: [diputuskan_oleh], references: [id_pengguna], onDelete: Restrict, onUpdate: Restrict, map: "fk_pengguna_diputuskan_oleh")
+  other_pengguna     pengguna[]           @relation("penggunaTopengguna")
+  transaksi          transaksi[]
+
+  @@index([status_akun, username], map: "ix_pengguna_status_username")
+}
+
+model transaksi {
+  metode_pembayaran String?            @db.VarChar(10)
+  total_bayar       Decimal?           @db.Decimal(18, 2)
+  pajak_layanan     Decimal?           @db.Decimal(18, 2)
+  uang_diterima     Decimal?           @db.Decimal(18, 2)
+  kembalian         Decimal?           @db.Decimal(18, 2)
+  waktu_bayar       DateTime?          @db.Timestamptz(6)
+  kunci_idempotensi String?            @unique(map: "uq_transaksi_idempotensi") @db.Uuid
+  id_transaksi      String             @id(map: "pk_transaksi") @db.VarChar(15)
+  id_pengguna       String             @db.VarChar(10)
+  tanggal           DateTime           @db.Date
+  status_transaksi  String             @db.VarChar(10)
+  alasan_gagal      String?            @db.VarChar(255)
+  detail_transaksi  detail_transaksi[]
+  pengguna          pengguna           @relation(fields: [id_pengguna], references: [id_pengguna], onDelete: NoAction, onUpdate: NoAction, map: "fk_transaksi_id_pengguna")
 }

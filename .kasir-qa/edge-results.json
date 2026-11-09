@@ -1,0 +1,10 @@
+{
+  "results": [
+    "Jual seluruh 8 Croissant: stok 0, tombol tambah nonaktif, tersedia 3, terjual 45",
+    "Kurangi jumlah 1 menghapus item dan mengembalikan keranjang kosong",
+    "Transaksi berikutnya memperoleh ID unik; Debit tepat total; stok Latte turun menjadi 23",
+    "Hasil pencarian transaksi bulan sebelumnya tetap dapat membuka rincian",
+    "Escape menutup notifikasi"
+  ],
+  "errors": []
+}

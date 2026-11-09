@@ -1,0 +1,2 @@
+from pathlib import Path
+p=Path("app/daily-worker/data.ts");s=p.read_text(encoding="utf-8").replace('"Cokelat Hitam","Cokelat Putih","Cokelat Susu"','"Couverture Hitam","Couverture Putih","Couverture Susu"');p.write_text(s,encoding="utf-8")

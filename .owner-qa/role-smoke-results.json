@@ -1,0 +1,10 @@
+{
+  "results": [
+    "/baker: HTTP 200, main tampil",
+    "/daily-worker: HTTP 200, main tampil",
+    "/kasir: HTTP 200, main tampil",
+    "/login: HTTP 200, main tampil",
+    "/owner pada localhost:3000: tampil"
+  ],
+  "errors": []
+}

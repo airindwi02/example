@@ -1,0 +1,12 @@
+{
+  "dashboard": true,
+  "logoutCancel": true,
+  "receivingValidation": true,
+  "stockAddition": true,
+  "duplicatePrevented": true,
+  "saveAgain": true,
+  "decimal": true,
+  "cancel": true,
+  "summary": true,
+  "errors": []
+}

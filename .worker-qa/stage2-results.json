@@ -1,0 +1,14 @@
+{
+  "stockSelection": true,
+  "pagination": true,
+  "search": true,
+  "empty": true,
+  "stockSharedAfterReceiving": true,
+  "movement": true,
+  "inspectionInvalid": true,
+  "inspectionSaved": true,
+  "inspectionDoesNotAdjustStock": true,
+  "zeroActualAccepted": true,
+  "cancel": true,
+  "errors": []
+}

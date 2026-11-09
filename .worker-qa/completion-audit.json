@@ -1,0 +1,33 @@
+{
+  "source_screenshots": 23,
+  "routes": [
+    "/daily-worker",
+    "/daily-worker/penerimaan",
+    "/daily-worker/stok-barang",
+    "/daily-worker/kadaluwarsa",
+    "/daily-worker/pemeriksaan",
+    "/daily-worker/penyesuaian",
+    "/daily-worker/tentang-alana",
+    "/daily-worker/pencarian?q=cokelat"
+  ],
+  "functional_assertions": 54,
+  "navigation_responsive_groups": 14,
+  "viewport_route_checks": 32,
+  "console_errors": [],
+  "failed_http_responses": [],
+  "preservation": {
+    "files_checked": 60,
+    "changed": [],
+    "missing": []
+  },
+  "visual_result": "passed",
+  "lint_exit_code": 0,
+  "build_exit_code": 0,
+  "database_writes": false,
+  "dummy_state_only": true,
+  "remaining_limitations": [
+    "Minor font/icon/spacing differences",
+    "Reference snapshot conflicts resolved using consistent live demo data",
+    "Demo resets on refresh"
+  ]
+}

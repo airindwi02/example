@@ -1,0 +1,17 @@
+{
+  "base": "http://localhost:3009",
+  "results": [
+    "1440x900: splash/login/register HTTP 200, tanpa overflow dan copy brand tidak terpotong",
+    "1366x768: splash/login/register HTTP 200, tanpa overflow dan copy brand tidak terpotong",
+    "1024x768: splash/login/register HTTP 200, tanpa overflow dan copy brand tidak terpotong",
+    "768x1024: splash/login/register HTTP 200, tanpa overflow dan copy brand tidak terpotong",
+    "390x844: splash/login/register HTTP 200, tanpa overflow dan copy brand tidak terpotong",
+    "360x800: splash/login/register HTTP 200, tanpa overflow dan copy brand tidak terpotong",
+    "320x700: splash/login/register HTTP 200, tanpa overflow dan copy brand tidak terpotong",
+    "844x390: splash/login/register HTTP 200, tanpa overflow dan copy brand tidak terpotong",
+    "390: pilih role, signup invalid/valid, sign in, login gagal lalu sukses: lulus",
+    "320: pilih role, signup invalid/valid, sign in, login gagal lalu sukses: lulus",
+    "Radio peran dapat dipilih melalui keyboard panah"
+  ],
+  "errors": []
+}

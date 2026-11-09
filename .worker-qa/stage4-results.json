@@ -1,0 +1,17 @@
+{
+  "about": true,
+  "notificationRead": true,
+  "allNotificationTargets": true,
+  "notificationEscape": true,
+  "searchAllTabs": true,
+  "searchMaterial": true,
+  "searchReceipt": true,
+  "searchExpiry": true,
+  "searchNoResults": true,
+  "searchHistoryClear": true,
+  "searchDirectLink": true,
+  "logoutFocusTrap": true,
+  "logoutEscape": true,
+  "logoutConfirm": true,
+  "errors": []
+}

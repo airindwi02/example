@@ -1,0 +1,46 @@
+[
+  [
+    "Kasir Dashboard",
+    "01-dashboard"
+  ],
+  [
+    "Kasir Dashboard-1",
+    "02-logout"
+  ],
+  [
+    "Kasir Produk Terjual Pilih Produk",
+    "03-products-empty"
+  ],
+  [
+    "Kasir Produk Terjual Input Jumlah",
+    "04-products-cart"
+  ],
+  [
+    "Kasir Produk Terjual Stok Tidak Mencukupi",
+    "05-stock-warning"
+  ],
+  [
+    "Kasir Produk Terjual Pastikan Data Penjual",
+    "06-confirm-sale"
+  ],
+  [
+    "Kasir Produk Terjual Berhasil Stok Berkurang",
+    "07-sale-success"
+  ],
+  [
+    "Kasir Riwayat Penjualan",
+    "08-history"
+  ],
+  [
+    "Kasir Tentang Alana",
+    "09-about"
+  ],
+  [
+    "Kasir Notifikasi",
+    "10-notifications"
+  ],
+  [
+    "Kasir Pencarian",
+    "11-search"
+  ]
+]

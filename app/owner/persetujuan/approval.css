@@ -1,0 +1,14 @@
+.approval-page { color: #513525; padding: 24px; max-width: 1000px; margin: auto; }
+.approval-page h1 { font-size: 26px; font-weight: 700; margin-bottom: 20px; }
+.approval-card { background: #fffdf9; border: 1px solid #e7d9c9; border-radius: 16px; padding: 24px; margin-block: 16px; overflow-wrap: anywhere; }
+.approval-card h2 { font-size: 19px; font-weight: 600; }
+.approval-card p { margin-block: 10px; }
+.approval-card form { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 20px; }
+.approval-card label { display: grid; gap: 8px; flex: 1 1 240px; }
+.approval-card input, .approval-card select { border: 1px solid #cfbba6; border-radius: 8px; padding: 10px; width: 100%; min-width: 0; background: white; }
+.approval-card button { background: #6c442d; color: white; border-radius: 8px; padding: 10px 18px; cursor: pointer; }
+.approval-card button[value="REJECTED"] { background: #f3e9df; color: #513525; }
+.approval-card button:disabled { opacity: .6; cursor: wait; }
+.approval-card form > p { flex-basis: 100%; }
+.approval-card :focus-visible { outline: 2px solid #8b6040; outline-offset: 3px; }
+@media (max-width: 640px) { .approval-page, .approval-card { padding: 16px; } }

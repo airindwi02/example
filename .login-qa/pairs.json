@@ -1,0 +1,18 @@
+[
+  [
+    "Login",
+    "01-splash"
+  ],
+  [
+    "Login Awal",
+    "02-login"
+  ],
+  [
+    "Pasword Salah",
+    "03-login-error"
+  ],
+  [
+    "Buat Akun",
+    "04-register"
+  ]
+]

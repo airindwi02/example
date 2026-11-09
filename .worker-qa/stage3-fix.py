@@ -1,0 +1,3 @@
+from pathlib import Path
+p=Path(".worker-qa/stage3.cjs");s=p.read_text(encoding="utf-8").replace("getByRole('link',{name:'Stok Barang',exact:true}).click();","getByRole('link',{name:'Stok Barang',exact:true}).click();await expect(p.getByRole('heading',{name:'Informasi Stok Barang',exact:true})).toBeVisible();");p.write_text(s,encoding="utf-8")
+p=Path("app/daily-worker/ui.tsx");s=p.read_text(encoding="utf-8").replace('rows.map(([label,value])=><div key={label}>','rows.map(([label,value],index)=><div key={label+"-"+index}>');p.write_text(s,encoding="utf-8")

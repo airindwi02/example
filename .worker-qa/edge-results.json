@@ -1,0 +1,8 @@
+{
+  "partialExpiryReselect": true,
+  "partialExpiryNoDuplicate": true,
+  "shortMobileMenu": true,
+  "shortMobileLogout": true,
+  "backdropClose": true,
+  "errors": []
+}

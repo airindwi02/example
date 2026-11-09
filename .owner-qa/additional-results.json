@@ -1,0 +1,11 @@
+{
+  "results": [
+    "Empat pintasan dashboard membuka route yang sesuai",
+    "Keempat filter cepat laporan berfungsi; Bulan Lalu menghasilkan empty state",
+    "Kegagalan unduhan disimulasikan: pesan gagal tampil, tanpa klaim berhasil",
+    "Filter tanggal kedua riwayat benar-benar mengubah jumlah baris",
+    "Tab Batas Minimum: nilai negatif ditolak; nilai valid memperbarui stok menipis",
+    "Escape menutup dropdown/modal dan Tab tetap di dalam dialog"
+  ],
+  "errors": []
+}

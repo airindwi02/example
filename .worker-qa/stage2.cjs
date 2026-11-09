@@ -1,0 +1,34 @@
+/* eslint-disable @typescript-eslint/no-require-imports -- Node-only browser checks. */
+const {chromium,expect}=require('@playwright/test');
+const fs=require('fs');
+(async()=>{
+const browser=await chromium.launch({channel:'chrome',headless:true});const p=await browser.newPage({viewport:{width:1440,height:900}});
+const errors=[];p.on('pageerror',e=>errors.push(e.message));
+const base=process.env.WORKER_BASE||'http://127.0.0.1:3000';
+await p.goto(base+'/daily-worker/stok-barang');
+await expect(p.getByRole('heading',{name:'Informasi Stok Barang'})).toBeVisible();
+await expect(p.locator('.w-pagination')).toContainText('1–9 dari 248');
+await expect(p.getByRole('button',{name:'‹ Sebelumnya'})).toBeDisabled();
+await p.getByRole('button',{name:'Berikutnya ›'}).click();await expect(p.locator('.w-pagination')).toContainText('10–18 dari 248');
+await p.getByRole('button',{name:'‹ Sebelumnya'}).click();
+await p.getByRole('row').filter({hasText:'Tepung Terigu'}).click();await expect(p.locator('.w-stock-number')).toHaveText('4 kg');
+await expect(p.locator('.w-stock-movements')).toContainText('-6 kg');
+await p.getByRole('textbox',{name:'Cari barang',exact:true}).fill('xyzxyz');await expect(p.getByText('Barang tidak ditemukan. Coba nama barang lain.')).toBeVisible();
+await p.getByRole('textbox',{name:'Cari barang',exact:true}).fill('Gula Pasir');await p.getByRole('button',{name:'Gula Pasir',exact:true}).click();await expect(p.locator('.w-stock-number')).toHaveText('15 kg');
+await p.getByRole('button',{name:'Hapus pencarian barang'}).click();
+await p.getByRole('navigation').getByRole('link',{name:'Penerimaan',exact:true}).click();
+await p.getByRole('combobox',{name:'Nama Bahan',exact:true}).selectOption('BHN-02');await p.getByLabel('Jumlah',{exact:true}).fill('20');await p.getByRole('button',{name:'Simpan Penerimaan',exact:true}).click();await expect(p.getByRole('status')).toContainText('35 kg');
+await p.getByRole('navigation').getByRole('link',{name:'Stok Barang',exact:true}).click();await p.getByRole('textbox',{name:'Cari barang',exact:true}).fill('Gula Pasir');await p.getByRole('button',{name:'Gula Pasir',exact:true}).click();await expect(p.locator('.w-stock-number')).toHaveText('35 kg');await expect(p.locator('.w-stock-movements')).toContainText('+20 kg');
+await p.getByRole('navigation').getByRole('link',{name:'Pemeriksaan',exact:true}).click();await expect(p.getByRole('heading',{name:'Pemeriksaan Stok'})).toBeVisible();
+await p.getByRole('button',{name:'Tepung Terigu',exact:true}).click();await p.getByLabel('Stok Aktual',{exact:true}).fill('empat');await p.getByRole('button',{name:'Simpan Pemeriksaan',exact:true}).click();await expect(p.locator('#inspection-error')).toBeVisible();
+await p.getByLabel('Stok Aktual',{exact:true}).fill('-2');await p.getByRole('button',{name:'Simpan Pemeriksaan',exact:true}).click();await expect(p.locator('#inspection-error')).toBeVisible();
+await p.getByLabel('Stok Aktual',{exact:true}).fill('3');await p.getByRole('button',{name:'Simpan Pemeriksaan',exact:true}).click();await expect(p.getByRole('status')).toContainText('Data pemeriksaan berhasil disimpan');
+await expect(p.getByRole('row').filter({hasText:'Tepung Terigu'})).toContainText('Sudah');await expect(p.getByRole('row').filter({hasText:'Tepung Terigu'})).toContainText('4 kg');
+await expect(p.locator('.w-mini-history')).toContainText('Selisih -1');
+await p.getByRole('button',{name:'Periksa Barang Lain',exact:true}).click();await expect(p.getByRole('heading',{name:'Pilih barang',exact:true})).toBeVisible();
+await p.getByRole('button',{name:'Mentega',exact:true}).click();await p.getByLabel('Stok Aktual',{exact:true}).fill('0');await p.getByRole('button',{name:'Simpan Pemeriksaan',exact:true}).click();await expect(p.getByRole('status')).toContainText('Data pemeriksaan berhasil disimpan');
+await p.getByRole('button',{name:'Periksa Barang Lain',exact:true}).click();await p.getByRole('button',{name:'Ragi Instan',exact:true}).click();await p.getByRole('button',{name:'Batal',exact:true}).click();await expect(p.getByRole('heading',{name:'Pilih barang',exact:true})).toBeVisible();
+await p.getByRole('button',{name:'Tepung Terigu',exact:true}).click();await p.screenshot({path:'.worker-qa/stage2-inspection.png',fullPage:true,animations:'disabled'});
+fs.writeFileSync('.worker-qa/stage2-results.json',JSON.stringify({stockSelection:true,pagination:true,search:true,empty:true,stockSharedAfterReceiving:true,movement:true,inspectionInvalid:true,inspectionSaved:true,inspectionDoesNotAdjustStock:true,zeroActualAccepted:true,cancel:true,errors},null,2));
+console.log('PASS stock/detail/pagination/search, shared receipt +20, inspection invalid/save/zero/cancel, no implicit stock mutation; errors:',errors);await browser.close();if(errors.length)process.exitCode=1;
+})().catch(e=>{console.error(e);process.exit(1)});

@@ -1,0 +1,20 @@
+{
+  "base": "http://localhost:3009",
+  "results": [
+    "Splash → login melalui keyboard; empat role, Owner terpilih awal",
+    "Kosong dan kredensial salah ditolak; border/error benar; tampil/sembunyi password; role tetap",
+    "Username valid untuk role lain ditolak; diperbaiki tanpa reload → Kasir",
+    "Login demo Owner → /owner: lulus",
+    "Login demo Daily Worker → /daily-worker: lulus",
+    "Login demo Kasir → /kasir: lulus",
+    "Login demo Baker/Barista → /baker: lulus",
+    "Akun Barista lama usr03 tetap menuju role gabungan /baker",
+    "Keempat role dipertahankan sepanjang Login → Sign up → Sign in",
+    "Pendaftaran kosong: seluruh field wajib invalid, email opsional tetap valid",
+    "Format HP/email, password 7 karakter, dan konfirmasi berbeda ditolak",
+    "Pendaftaran valid dengan email: konfirmasi demo, password dilepas, role baru tetap saat Sign in",
+    "Password tepat 8 karakter dan email kosong diterima",
+    "Role URL tidak dikenal tidak menambah role atau tujuan redirect"
+  ],
+  "errors": []
+}

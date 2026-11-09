@@ -1,0 +1,98 @@
+[
+  {
+    "path": "app/kasir/data.ts",
+    "status": "modified"
+  },
+  {
+    "path": "app/kasir/kasir.css",
+    "status": "added"
+  },
+  {
+    "path": "app/kasir/KasirClient.tsx",
+    "status": "modified"
+  },
+  {
+    "path": "app/kasir/KasirDashboard.tsx",
+    "status": "added"
+  },
+  {
+    "path": "app/kasir/KasirHistory.tsx",
+    "status": "added"
+  },
+  {
+    "path": "app/kasir/KasirSales.tsx",
+    "status": "added"
+  },
+  {
+    "path": "app/kasir/KasirSearch.tsx",
+    "status": "added"
+  },
+  {
+    "path": "app/kasir/KasirShell.tsx",
+    "status": "added"
+  },
+  {
+    "path": "app/kasir/KasirState.tsx",
+    "status": "added"
+  },
+  {
+    "path": "app/kasir/KasirUI.tsx",
+    "status": "added"
+  },
+  {
+    "path": "app/kasir/layout.tsx",
+    "status": "added"
+  },
+  {
+    "path": "app/kasir/notifikasi/page.tsx",
+    "status": "modified"
+  },
+  {
+    "path": "app/kasir/page.tsx",
+    "status": "modified"
+  },
+  {
+    "path": "app/kasir/pencarian/page.tsx",
+    "status": "modified"
+  },
+  {
+    "path": "app/kasir/produk-terjual/page.tsx",
+    "status": "modified"
+  },
+  {
+    "path": "app/kasir/riwayat-penjualan/page.tsx",
+    "status": "modified"
+  },
+  {
+    "path": "app/kasir/tentang-alana/page.tsx",
+    "status": "modified"
+  },
+  {
+    "path": "public/kasir/about-art.png",
+    "status": "added"
+  },
+  {
+    "path": "public/kasir/brownies.png",
+    "status": "added"
+  },
+  {
+    "path": "public/kasir/croissant.png",
+    "status": "added"
+  },
+  {
+    "path": "public/kasir/dashboard-art.png",
+    "status": "added"
+  },
+  {
+    "path": "public/kasir/latte.png",
+    "status": "added"
+  },
+  {
+    "path": "public/kasir/logo.png",
+    "status": "added"
+  },
+  {
+    "path": "public/kasir/red-velvet.png",
+    "status": "added"
+  }
+]

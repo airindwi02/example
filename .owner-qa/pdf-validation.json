@@ -1,0 +1,5 @@
+{
+  "pages": 1,
+  "valid": true,
+  "text": "ALANA PATISSERIE - LAPORAN PERSEDIAAN\nPeriode: 01/10/2026 - 24/10/2026\nKategori: Semua Kategori\nData demonstrasi Owner; bukan data database.\nBahan                    Awal  Masuk  Keluar  Koreksi   Akhir\n-------------------------------------------------------------\nTepung Terigu              20     30      46        0       4\nSusu Cair                  10     40      47        0       3\nMentega                     9     10      16       -1       2\nGula Pasir                 12     20      17        0      15\nTelur                      40     60      70        0      30\nTotal masuk: 160; keluar: 196; koreksi: -1\nBahan menipis pada periode: 3"
+}

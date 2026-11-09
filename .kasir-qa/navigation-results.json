@@ -1,0 +1,14 @@
+{
+  "results": [
+    "Keempat kartu produk dashboard membuka produk yang sesuai",
+    "Seluruh lima pilihan filter produk menampilkan jumlah yang benar",
+    "Kedua notifikasi stok membuka produk yang benar",
+    "Ketiga tab hasil pencarian dan klik riwayat pencarian berfungsi",
+    "/owner: HTTP 200, halaman tampil",
+    "/baker: HTTP 200, halaman tampil",
+    "/daily-worker: HTTP 200, halaman tampil",
+    "/login: HTTP 200, halaman tampil",
+    "/kasir pada localhost:3000 tampil"
+  ],
+  "errors": []
+}

@@ -6,16 +6,34 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "test:auth": "node --test tests/auth.test.cjs",
+    "test:worker": "node --conditions=react-server --import tsx --test tests/worker.test.cjs",
+    "test:worker:isolated": "node --conditions=react-server --import tsx scripts/test-daily-worker.cjs",
+    "test:order": "node --conditions=react-server --import tsx --test tests/order.test.cjs",
+    "test:order:isolated": "node --conditions=react-server --import tsx scripts/test-order-db.cjs",
+    "test:baker": "node --conditions=react-server --import tsx --test tests/baker.test.cjs",
+    "test:baker:isolated": "node --conditions=react-server --import tsx scripts/test-baker-db.cjs",
+    "test:kasir": "node --conditions=react-server --import tsx --test tests/kasir.test.cjs",
+    "test:kasir:isolated": "node --conditions=react-server --import tsx scripts/test-kasir-db.cjs",
+    "test:payment": "node --conditions=react-server --import tsx --test tests/payment.test.cjs",
+    "test:payment:isolated": "node --conditions=react-server --import tsx scripts/test-payment.cjs"
   },
   "dependencies": {
-    "@prisma/client": "^7.10.0",
+    "@node-rs/argon2": "2.2.2",
+    "@prisma/adapter-pg": "7.10.1",
+    "@prisma/client": "7.10.1",
+    "iron-session": "9.0.1",
+    "lucide-react": "^1.70.0",
     "next": "16.4.4",
-    "prisma": "^7.10.0",
+    "pg": "8.23.1",
+    "prisma": "7.10.1",
     "react": "19.3.0",
-    "react-dom": "19.3.0"
+    "react-dom": "19.3.0",
+    "server-only": "0.0.1"
   },
   "devDependencies": {
+    "@playwright/test": "1.65.0",
     "@tailwindcss/turbopack": "^4",
     "@types/node": "^20",
     "@types/react": "^19",
@@ -23,6 +41,7 @@
     "eslint": "^9",
     "eslint-config-next": "16.4.4",
     "tailwindcss": "^4",
+    "tsx": "4.23.15",
     "typescript": "^5"
   }
 }

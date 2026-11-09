@@ -1,0 +1,86 @@
+{
+  "report": [
+    {
+      "name": "Dashboard tampil dan delapan bahan menipis",
+      "result": "passed"
+    },
+    {
+      "name": "Sidebar Cari Stok Bahan dan seluruh kategori",
+      "result": "passed"
+    },
+    {
+      "name": "Pencarian tidak ditemukan dan saran",
+      "result": "passed"
+    },
+    {
+      "name": "Cari Tepung lalu buka detail jumlah/kondisi",
+      "result": "passed"
+    },
+    {
+      "name": "Saran bahan membuka detail",
+      "result": "passed"
+    },
+    {
+      "name": "Sidebar Pemakaian Bahan dan pilihan produk",
+      "result": "passed"
+    },
+    {
+      "name": "Croissant stok kurang dan simpan terblokir",
+      "result": "passed"
+    },
+    {
+      "name": "Restok simulasi membuka form bahan cukup",
+      "result": "passed"
+    },
+    {
+      "name": "Input melebihi stok dan hasil kosong ditolak tanpa mutasi",
+      "result": "passed"
+    },
+    {
+      "name": "Input negatif, nol, dan pecahan hasil ditolak",
+      "result": "passed"
+    },
+    {
+      "name": "Simpan produksi mengurangi stok dan menambah produk/riwayat tepat sekali",
+      "result": "passed"
+    },
+    {
+      "name": "Semua produk dapat dipilih",
+      "result": "passed"
+    },
+    {
+      "name": "Dashboard menampilkan hasil simulasi dan tautan produk",
+      "result": "passed"
+    },
+    {
+      "name": "Sidebar bawah Tentang Alana",
+      "result": "passed"
+    },
+    {
+      "name": "Notifikasi dropdown tandai dibaca dan buka bahan",
+      "result": "passed"
+    },
+    {
+      "name": "Notifikasi navigasi detail dalam rute yang sama dan lihat semua",
+      "result": "passed"
+    },
+    {
+      "name": "Pencarian global, tab, detail bahan/produk, dan riwayat pencarian",
+      "result": "passed"
+    },
+    {
+      "name": "Modal keluar, fokus keyboard, batal dan konfirmasi ke login",
+      "result": "passed"
+    },
+    {
+      "name": "Mobile 390px seluruh menu dan overflow",
+      "result": "passed"
+    },
+    {
+      "name": "Rute role lain tetap tersedia tanpa 404",
+      "result": "passed"
+    }
+  ],
+  "errors": [],
+  "badResponses": []
+}

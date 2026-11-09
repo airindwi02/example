@@ -1,0 +1,23 @@
+{
+  "checks": [
+    "360px /baker",
+    "360px /baker/stok-bahan",
+    "360px /baker/pemakaian-bahan",
+    "360px /baker/tentang-alana",
+    "360px /baker/pencarian",
+    "768px /baker",
+    "768px /baker/stok-bahan",
+    "768px /baker/pemakaian-bahan",
+    "768px /baker/tentang-alana",
+    "768px /baker/pencarian",
+    "1024px /baker",
+    "1024px /baker/stok-bahan",
+    "1024px /baker/pemakaian-bahan",
+    "1024px /baker/tentang-alana",
+    "1024px /baker/pencarian"
+  ],
+  "mobileProduction": "passed",
+  "mobileValidation": "passed",
+  "mobileSearch": "passed",
+  "errors": []
+}

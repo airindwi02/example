@@ -1,0 +1,30 @@
+/* eslint-disable @typescript-eslint/no-require-imports -- Node-only browser checks. */
+const {chromium,expect}=require('@playwright/test');const fs=require('fs');
+(async()=>{
+const b=await chromium.launch({channel:'chrome',headless:true});const p=await b.newPage({viewport:{width:1440,height:900}});const errors=[];p.on('pageerror',e=>errors.push(e.message));p.on('console',m=>{if(m.type()==='error')errors.push(m.text())});const base=process.env.WORKER_BASE||'http://127.0.0.1:3000';
+await p.goto(base+'/daily-worker');
+await p.getByRole('button',{name:'Notifikasi',exact:true}).click();await expect(p.getByRole('dialog',{name:'Notifikasi',exact:true})).toBeVisible();
+await p.getByRole('button',{name:'Tandai dibaca',exact:true}).click();await expect(p.locator('.w-notification-heading')).toContainText('0 baru');
+await p.locator('.w-notifications').getByRole('link').filter({hasText:'2 bahan sudah kadaluwarsa'}).click();await expect(p.getByRole('heading',{name:'Peringatan Kadaluwarsa',exact:true})).toBeVisible();await expect(p.locator('.w-expiry-table tbody tr')).toHaveCount(2);
+await p.getByRole('button',{name:'Notifikasi',exact:true}).click();await p.locator('.w-notifications').getByRole('link').filter({hasText:'≤ 7 hari'}).click();await expect(p.locator('.w-expiry-table tbody tr')).toHaveCount(4);
+await p.getByRole('button',{name:'Notifikasi',exact:true}).click();await p.locator('.w-notifications').getByRole('link').filter({hasText:'Pemeriksaan stok menunggu'}).click();await expect(p.getByRole('heading',{name:'Pemeriksaan Stok',exact:true})).toBeVisible();
+await p.getByRole('button',{name:'Notifikasi',exact:true}).click();await p.keyboard.press('Escape');await expect(p.getByRole('dialog')).toHaveCount(0);
+await p.locator('.w-sidebar-bottom').getByRole('link',{name:'Tentang Alana',exact:true}).click();await expect(p.getByRole('heading',{name:'Alana Patisserie'})).toBeVisible();await expect(p.locator('.w-about')).toContainText('Jl. Dr Moh Hatta no 72');
+await p.getByRole('textbox',{name:'Pencarian global',exact:true}).fill('cokelat');await p.getByRole('button',{name:'Cari global',exact:true}).click();
+await expect(p.locator('.w-search-count')).toHaveText('3 hasil ditemukan');
+await p.getByRole('button',{name:'Bahan 1',exact:true}).click();await expect(p.locator('.w-search-result')).toHaveCount(1);
+await p.getByRole('button',{name:'Riwayat 2',exact:true}).click();await expect(p.locator('.w-search-result')).toHaveCount(2);
+await p.getByRole('button',{name:'Semua 3',exact:true}).click();
+await p.locator('.w-search-result').first().click();await expect(p.getByRole('heading',{name:'Informasi Stok Barang'})).toBeVisible();await expect(p.locator('.w-stock-detail')).toContainText('Cokelat Bubuk');
+await p.getByRole('textbox',{name:'Pencarian global',exact:true}).fill('cokelat');await p.getByRole('textbox',{name:'Pencarian global',exact:true}).press('Enter');await expect(p.locator('.w-search-count')).toHaveText('3 hasil ditemukan');
+await p.locator('.w-search-result').filter({hasText:'Penerimaan ·'}).click();await expect(p.getByRole('heading',{name:'Catat Bahan Baku Masuk'})).toBeVisible();await expect(p.getByRole('combobox',{name:'Nama Bahan',exact:true})).toHaveValue('BHN-06');
+await p.getByRole('textbox',{name:'Pencarian global',exact:true}).fill('cokelat');await p.getByRole('textbox',{name:'Pencarian global',exact:true}).press('Enter');await expect(p.locator('.w-search-count')).toHaveText('3 hasil ditemukan');await p.locator('.w-search-result').filter({hasText:'Kadaluwarsa ·'}).click();await expect(p.getByRole('heading',{name:'Sesuaikan Stok — Cokelat Bubuk'})).toBeVisible();
+await p.getByRole('textbox',{name:'Pencarian global',exact:true}).fill('xyzxyz');await p.getByRole('textbox',{name:'Pencarian global',exact:true}).press('Enter');await expect(p.getByText('Tidak ada hasil. Coba kata kunci lain.')).toBeVisible();
+await p.getByRole('button',{name:'Hapus xyzxyz',exact:true}).click();await p.getByRole('button',{name:'Hapus semua',exact:true}).click();await expect(p.getByText('Belum ada pencarian terakhir.')).toBeVisible();
+await p.goto(base+'/daily-worker/pencarian?q=susu');await expect(p.getByRole('textbox',{name:'Pencarian global',exact:true})).toHaveValue('susu');await expect(p.locator('.w-search-result').first()).toContainText('Susu Cair');
+await p.getByRole('button',{name:'Hapus pencarian global',exact:true}).click();await expect(p.getByRole('textbox',{name:'Pencarian global',exact:true})).toHaveValue('');
+await p.getByRole('button',{name:'Keluar',exact:true}).click();await expect(p.getByRole('dialog',{name:'Yakin ingin keluar?'})).toBeVisible();await p.keyboard.press('Tab');await p.keyboard.press('Tab');await expect(p.getByRole('button',{name:'Batal',exact:true})).toBeFocused();await p.keyboard.press('Escape');await expect(p.getByRole('dialog')).toHaveCount(0);
+await p.getByRole('button',{name:'Keluar',exact:true}).click();await p.getByRole('link',{name:'Ya, keluar',exact:true}).click();await expect(p).toHaveURL(/login/);
+fs.writeFileSync('.worker-qa/stage4-results.json',JSON.stringify({about:true,notificationRead:true,allNotificationTargets:true,notificationEscape:true,searchAllTabs:true,searchMaterial:true,searchReceipt:true,searchExpiry:true,searchNoResults:true,searchHistoryClear:true,searchDirectLink:true,logoutFocusTrap:true,logoutEscape:true,logoutConfirm:true,errors},null,2));console.log('PASS about/notification/search tabs & targets/deep links/history/logout; errors:',errors);
+await b.close();if(errors.length)process.exitCode=1;
+})().catch(e=>{console.error(e);process.exit(1)});

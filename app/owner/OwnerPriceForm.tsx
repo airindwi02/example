@@ -1,0 +1,4 @@
+"use client";
+import {useState,useTransition} from "react";
+import {setPriceAction} from "./master-data/price-actions";
+export default function OwnerPriceForm({id,price}:{id:string;price:string|null}){const [value,setValue]=useState(price??""),[message,setMessage]=useState(""),[pending,start]=useTransition();return <form className="o-master-form" onSubmit={e=>{e.preventDefault();start(async()=>{const result=await setPriceAction(id,value);setMessage(result.ok?"Harga jual resmi berhasil disimpan.":result.message);});}}><label>Harga Jual Resmi<input aria-label="Harga Jual Resmi" inputMode="decimal" value={value} disabled={pending} onChange={e=>setValue(e.target.value)}/></label><button className="o-primary" disabled={pending}>Simpan Harga</button>{message&&<p role="status">{message}</p>}</form>;}

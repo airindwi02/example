@@ -1,0 +1,18 @@
+{
+  "expiryFilters": true,
+  "expiryValidation": true,
+  "expiryAdjustment": true,
+  "noDuplicate": true,
+  "expiryEmpty": true,
+  "upcoming": true,
+  "sharedStock": true,
+  "negativeValidation": true,
+  "textValidation": true,
+  "autoDifference": true,
+  "negativeDifferenceSave": true,
+  "positiveDifferenceSave": true,
+  "zeroDifferenceKeep": true,
+  "editAfterReview": true,
+  "dashboardUpdated": true,
+  "errors": []
+}

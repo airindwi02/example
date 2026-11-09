@@ -1,0 +1,12 @@
+from pathlib import Path
+p=Path("app/baker/BakerClient.tsx")
+s=p.read_text(encoding="utf-8-sig")
+s=b"".join(bytes([ord(c)]) if 0x80 <= ord(c) <= 0x9f else c.encode("cp1252") for c in s).decode("utf-8")
+p.write_text(s,encoding="utf-8")
+p=Path("app/baker/data.ts")
+s=p.read_text(encoding="utf-8-sig")
+s=s.replace('id:"almond",name:"Tepung Almond",category:"Bahan Kue",stock:2,unit:"kg",minimum:2','id:"almond",name:"Tepung Almond",category:"Bahan Kue",stock:2,unit:"kg",minimum:5')
+p.write_text(s,encoding="utf-8")
+p=Path("app/baker/BakerClient.tsx")
+s=p.read_text(encoding="utf-8").replace('materials.filter(m=>m.stock<m.minimum).length','materials.slice(0,8).filter(m=>m.stock<m.minimum).length')
+p.write_text(s,encoding="utf-8")

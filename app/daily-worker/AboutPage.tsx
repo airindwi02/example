@@ -1,0 +1,8 @@
+"use client";
+import Image from "next/image";
+export default function AboutPage(){
+ return <div className="w-about"><section className="w-about-top"><div><small>TENTANG USAHA</small><h2>Alana Patisserie</h2><p>Usaha roti, kue, dan minuman yang menjaga satu hal di setiap dapurnya: bahan yang segar dan rasa yang konsisten. Sistem persediaan ini membantu seluruh tim memastikan keduanya.</p></div><Image src="/daily-worker/about.png" alt="Ilustrasi roti, croissant, cupcake dan gandum" width={472} height={176}/></section>
+ <section className="w-vision"><div><h3>Visi</h3><p>Menjadi usaha bakery pilihan masyarakat yang menghadirkan roti dan kue segar berkualitas, dengan pengelolaan bahan yang tertib dan minim terbuang.</p></div><div><h3>Misi</h3><ol>{["Membuat roti, kue, dan minuman dari bahan pilihan yang segar.","Menjaga rasa dan kualitas tetap konsisten di setiap produk.","Mengelola persediaan agar tidak kurang dan tidak terbuang.","Melayani pelanggan dengan ramah, cepat, dan jujur."].map(m=><li key={m}>{m}</li>)}</ol></div></section>
+ <section className="w-about-info"><div><small>PRODUK</small><p>Roti dan pastry</p><p>Kue dan dessert</p><p>Kopi, teh, minuman dingin</p></div><div><small>JAM BUKA</small><p>Senin – Jumat <strong>07.00 – 20.00</strong></p><p>Sabtu <strong>07.00 – 21.00</strong></p><p>Minggu <strong>08.00 – 18.00</strong></p></div><div><small>KONTAK</small><p>Jl. Dr Moh Hatta no 72</p><p>Padang, Sumatera Barat</p><p>@alanapatisseriee</p></div></section>
+ <footer>Alana Patisserie · Sistem Informasi Persediaan Bahan Baku, Kue, Roti, dan Minuman</footer></div>;
+}

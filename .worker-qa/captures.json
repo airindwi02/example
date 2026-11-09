@@ -1,0 +1,98 @@
+{
+  "captures": [
+    {
+      "source": "Worker Dashboard",
+      "name": "dashboard"
+    },
+    {
+      "source": "Worker Dashboard-1",
+      "name": "logout"
+    },
+    {
+      "source": "Worker Notifikasi Dropdown",
+      "name": "notifications"
+    },
+    {
+      "source": "Worker Penerimaan Form",
+      "name": "receiving-form"
+    },
+    {
+      "source": "Worker Penerimaan Isian Diperbaiki",
+      "name": "receiving-error"
+    },
+    {
+      "source": "Worker Penerimaan Berhasil",
+      "name": "receiving-success"
+    },
+    {
+      "source": "Worker Stok Barang Pilih Barang",
+      "name": "stock-empty"
+    },
+    {
+      "source": "Worker Stok Barang Jumlah Terpilih",
+      "name": "stock-selected"
+    },
+    {
+      "source": "Worker Kadaluwarsa Daftar",
+      "name": "expiry-list"
+    },
+    {
+      "source": "Worker Kadaluwarsa Sesuaikan Stok",
+      "name": "expiry-form"
+    },
+    {
+      "source": "Worker Kadaluwarsa Sesuaikan Stok-1",
+      "name": "expiry-success"
+    },
+    {
+      "source": "Worker Kadaluwarsa Kosong",
+      "name": "expiry-empty"
+    },
+    {
+      "source": "Worker Pemeriksaan Pilih Barang",
+      "name": "inspection-empty"
+    },
+    {
+      "source": "Worker Pemeriksaan Masukkan Stok Aktual",
+      "name": "inspection-form"
+    },
+    {
+      "source": "Worker Pemeriksaan Isian Diperbaiki",
+      "name": "inspection-error"
+    },
+    {
+      "source": "Worker Pemeriksaan Data Tersimpan",
+      "name": "inspection-success"
+    },
+    {
+      "source": "Worker Penyesuaian Form Hasil Hitung",
+      "name": "adjustment-form"
+    },
+    {
+      "source": "Worker Penyesuaian Koreksi Jumlah",
+      "name": "adjustment-error"
+    },
+    {
+      "source": "Worker Penyesuaian Ada Selisih Catat",
+      "name": "adjustment-difference"
+    },
+    {
+      "source": "Penyesuaian Stok Dipertahankan",
+      "name": "adjustment-equal"
+    },
+    {
+      "source": "Penyesuaian Hasil Tersimpan",
+      "name": "adjustment-success"
+    },
+    {
+      "source": "Worker Tentang Alana",
+      "name": "about"
+    },
+    {
+      "source": "Worker Pencarian",
+      "name": "search"
+    }
+  ],
+  "errors": [],
+  "base": "http://127.0.0.1:3006"
+}

@@ -1,0 +1,15 @@
+{
+  "base": "http://localhost:3009",
+  "results": [
+    "Username dikenal + password salah serta password demo + username tidak dikenal sama-sama ditolak",
+    "Setelah konfirmasi → Sign in → Sign up, formulir kosong dapat dipakai lagi dan role tetap Kasir",
+    "Pendaftaran demo tidak diam-diam membuat akun login baru",
+    "Logo formulir → splash → login berfungsi",
+    "/owner: HTTP 200, konten dashboard tampil",
+    "/daily-worker: HTTP 200, konten dashboard tampil",
+    "/kasir: HTTP 200, konten dashboard tampil",
+    "/baker: HTTP 200, konten dashboard tampil",
+    "Halaman pembuka terbaru juga tampil di localhost:3000"
+  ],
+  "errors": []
+}

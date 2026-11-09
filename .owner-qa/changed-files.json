@@ -1,0 +1,102 @@
+[
+  {
+    "path": "app/owner/data.ts",
+    "status": "modified"
+  },
+  {
+    "path": "app/owner/exportPdf.ts",
+    "status": "added"
+  },
+  {
+    "path": "app/owner/HistoryClient.tsx",
+    "status": "added"
+  },
+  {
+    "path": "app/owner/laporan/page.tsx",
+    "status": "modified"
+  },
+  {
+    "path": "app/owner/layout.tsx",
+    "status": "added"
+  },
+  {
+    "path": "app/owner/LowStockClient.tsx",
+    "status": "added"
+  },
+  {
+    "path": "app/owner/master-data/page.tsx",
+    "status": "modified"
+  },
+  {
+    "path": "app/owner/MasterDataClient.tsx",
+    "status": "added"
+  },
+  {
+    "path": "app/owner/owner.css",
+    "status": "added"
+  },
+  {
+    "path": "app/owner/OwnerDashboardClient.tsx",
+    "status": "modified"
+  },
+  {
+    "path": "app/owner/OwnerSectionLayout.tsx",
+    "status": "modified"
+  },
+  {
+    "path": "app/owner/OwnerState.tsx",
+    "status": "added"
+  },
+  {
+    "path": "app/owner/OwnerUI.tsx",
+    "status": "added"
+  },
+  {
+    "path": "app/owner/page.tsx",
+    "status": "modified"
+  },
+  {
+    "path": "app/owner/pencarian/page.tsx",
+    "status": "added"
+  },
+  {
+    "path": "app/owner/ReportClient.tsx",
+    "status": "added"
+  },
+  {
+    "path": "app/owner/riwayat-keluar/page.tsx",
+    "status": "modified"
+  },
+  {
+    "path": "app/owner/riwayat-masuk/page.tsx",
+    "status": "modified"
+  },
+  {
+    "path": "app/owner/SearchClient.tsx",
+    "status": "added"
+  },
+  {
+    "path": "app/owner/stok-menipis/page.tsx",
+    "status": "modified"
+  },
+  {
+    "path": "app/owner/tentang-alana/page.tsx",
+    "status": "added"
+  },
+  {
+    "path": "public/owner/about-art.png",
+    "status": "added"
+  },
+  {
+    "path": "public/owner/croissant.png",
+    "status": "added"
+  },
+  {
+    "path": "public/owner/dashboard-art.png",
+    "status": "added"
+  },
+  {
+    "path": "public/owner/logo.png",
+    "status": "added"
+  }
+]

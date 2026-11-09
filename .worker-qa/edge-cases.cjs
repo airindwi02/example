@@ -1,0 +1,30 @@
+/* eslint-disable @typescript-eslint/no-require-imports -- Node-only edge-case browser checks. */
+const {chromium,expect}=require('@playwright/test');const fs=require('fs');
+(async()=>{
+ const browser=await chromium.launch({channel:'chrome',headless:true});
+ const p=await browser.newPage({viewport:{width:1440,height:900}});const errors=[];p.on('pageerror',e=>errors.push(e.message));p.on('console',m=>{if(m.type()==='error')errors.push(m.text())});
+ const base=process.env.WORKER_BASE||'http://127.0.0.1:3000';
+ await p.goto(base+'/daily-worker/kadaluwarsa');
+ await p.getByRole('button',{name:'Tindak Susu Cair',exact:true}).click();
+ await p.getByLabel('Jumlah Dikurangi',{exact:true}).fill('1');
+ await p.getByRole('button',{name:'Catat Penyesuaian',exact:true}).click();
+ await expect(p.locator('.w-expiry-message')).toContainText('3 → 2 L');
+ await expect(p.getByRole('button',{name:'Catat Penyesuaian',exact:true})).toBeDisabled();
+ await p.getByRole('button',{name:'Tindak Susu Cair',exact:true}).click();
+ await expect(p.getByLabel('Jumlah Dikurangi',{exact:true})).toHaveValue('2');
+ await expect(p.getByRole('button',{name:'Catat Penyesuaian',exact:true})).toBeEnabled();
+ await p.getByRole('button',{name:'Catat Penyesuaian',exact:true}).click();
+ await expect(p.locator('.w-expiry-message')).toContainText('2 → 0 L');
+ await expect(p.getByRole('button',{name:'Tindak Susu Cair',exact:true})).toHaveCount(0);
+ await p.setViewportSize({width:390,height:500});await p.goto(base+'/daily-worker');
+ await p.getByRole('button',{name:'Buka menu',exact:true}).click();
+ await p.locator('.w-sidebar-bottom').getByRole('link',{name:'Tentang Alana',exact:true}).click();
+ await expect(p.getByRole('heading',{name:'Alana Patisserie',exact:true})).toBeVisible();
+ await p.getByRole('button',{name:'Buka menu',exact:true}).click();await p.getByRole('button',{name:'Keluar',exact:true}).click();
+ await expect(p.getByRole('dialog',{name:'Yakin ingin keluar?'})).toBeVisible();await expect(p.getByRole('dialog',{name:'Yakin ingin keluar?'})).toBeInViewport({ratio:1});await p.getByRole('button',{name:'Batal',exact:true}).click();
+ await p.getByRole('button',{name:'Buka menu',exact:true}).click();await p.getByRole('button',{name:'Tutup menu',exact:true}).click();
+ await expect(p.getByRole('button',{name:'Tutup menu',exact:true})).toHaveCount(0);
+ fs.writeFileSync('.worker-qa/edge-results.json',JSON.stringify({partialExpiryReselect:true,partialExpiryNoDuplicate:true,shortMobileMenu:true,shortMobileLogout:true,backdropClose:true,errors},null,2));
+ console.log('PASS partial expiry 3→2→0, reselect and duplicate prevention, 390x500 sidebar/about/logout/backdrop; errors:',errors);
+ await browser.close();if(errors.length)process.exitCode=1;
+})().catch(e=>{console.error(e);process.exit(1)});

@@ -1,0 +1,18 @@
+{
+  "base": "http://localhost:3008",
+  "results": [
+    "1440x900: 6 route HTTP 200, tanpa overflow",
+    "1024x768: 6 route HTTP 200, tanpa overflow",
+    "768x1024: 6 route HTTP 200, tanpa overflow",
+    "390x844: 6 route HTTP 200, tanpa overflow",
+    "390: sidebar/profil, notifikasi dan dialog keluar dapat dijangkau",
+    "360x800: 6 route HTTP 200, tanpa overflow",
+    "360: sidebar/profil, notifikasi dan dialog keluar dapat dijangkau",
+    "320x700: 6 route HTTP 200, tanpa overflow",
+    "320: sidebar/profil, notifikasi dan dialog keluar dapat dijangkau",
+    "844x390: 6 route HTTP 200, tanpa overflow",
+    "390: transaksi Rp148.000 selesai, Ubah, simpan, stok dan kembalian benar",
+    "320: transaksi Rp148.000 selesai, Ubah, simpan, stok dan kembalian benar"
+  ],
+  "errors": []
+}

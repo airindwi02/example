@@ -1,0 +1,20 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"label": "Open frontend preview",
+			"type": "shell",
+			"command": "http://localhost:3000",
+			"args": [],
+			"isBackground": true
+		},
+		{
+			"label": "Start app",
+			"type": "shell",
+			"command": "cmd /c \"start http://localhost:3000\"",
+			"args": [],
+			"isBackground": true,
+			"group": "build"
+		}
+	]
+}

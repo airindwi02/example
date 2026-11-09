@@ -1,0 +1,21 @@
+{
+  "results": [
+    "Empat tab dan pagination Master Data: lulus",
+    "Edit bahan, validasi kosong/angka, simpan dan detail: lulus",
+    "Batal hapus: data tetap ada",
+    "Tambah, ubah, cari, hapus Bahan Baku: lulus",
+    "Tambah, ubah, cari, hapus Satuan: lulus",
+    "Tambah, ubah, cari, hapus Pemasok: lulus",
+    "State bahan dipertahankan saat pindah route: lulus",
+    "Filter dan pencarian stok: lulus",
+    "Filter periode dan kategori mengubah baris dan total: lulus",
+    "Validasi tanggal, batal ekspor, PDF nyata diunduh: lulus",
+    "Riwayat Masuk pilih detail/cari/empty: lulus",
+    "Riwayat Keluar detail/jenis/cari/empty: lulus",
+    "Notifikasi buka/tandai dibaca/link peringatan: lulus",
+    "Pencarian global/tab/klik hasil → rincian: lulus",
+    "Pencarian kosong dan hapus riwayat: lulus",
+    "Keluar → Batal / login: lulus"
+  ],
+  "errors": []
+}

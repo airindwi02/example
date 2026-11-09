@@ -41,3 +41,10 @@ yarn-error.log*
 next-env.d.ts
 
 /app/generated/prisma
+/app/generated/payment-prisma
+/.next-auth-browser-test/
+/.owner-master-qa/
+/.worker-db-qa/
+/.baker-db-qa/
+/.kasir-db-qa/
+/.payment-db-qa/

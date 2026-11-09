@@ -1,0 +1,16 @@
+{
+  "results": [
+    "1440×900: 8 routes 200, tidak ada overflow",
+    "1024×768: 8 routes 200, tidak ada overflow",
+    "768×1024: 8 routes 200, tidak ada overflow",
+    "390×844: 8 routes 200, tidak ada overflow",
+    "390: menu, modal keluar, dropdown, modal ekspor utuh",
+    "360×800: 8 routes 200, tidak ada overflow",
+    "360: menu, modal keluar, dropdown, modal ekspor utuh",
+    "320×700: 8 routes 200, tidak ada overflow",
+    "320: menu, modal keluar, dropdown, modal ekspor utuh",
+    "844×390: 8 routes 200, tidak ada overflow",
+    "8 batas minimum diubah lewat form → empty state stok dan dashboard 0: lulus"
+  ],
+  "errors": []
+}
