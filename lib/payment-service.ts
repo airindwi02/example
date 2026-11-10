@@ -1,6 +1,6 @@
 import { randomBytes } from "node:crypto";
 import {Prisma,type PrismaClient,type Prisma as P} from "../app/generated/prisma/client";
-import {cashPaymentPolicy,pricingEnabled} from "./payment-policy";
+import {cashPaymentPolicy,cashPaymentTerms,pricingEnabled} from "./payment-policy";
 const Money=Prisma.Decimal.clone({precision:40});
 export class PaymentError extends Error {}
 type Actor={id_pengguna:string;password_hash:string};
@@ -9,7 +9,7 @@ export function money(s:unknown,positive=false){if(typeof s!=="string"||!/^(?:0|
 export function paymentInput(input:unknown){
  if(!input||typeof input!=="object")throw new PaymentError("Data pembayaran tidak valid.");
  const c=input as {key:string;method:string;received:string;lines:{id:string;qty:number;price:string}[]};
- if(typeof c.key!=="string"||!/^[a-f0-9]{8}-[a-f0-9]{4}-4[a-f0-9]{3}-[89ab][a-f0-9]{3}-[a-f0-9]{12}$/i.test(c.key)||c.method!=="TUNAI"||!Array.isArray(c.lines)||!c.lines.length||c.lines.length>50)throw new PaymentError("Pembayaran harus Tunai dengan produk dan kunci permintaan yang valid.");
+ if(typeof c.key!=="string"||!/^[a-f0-9]{8}-[a-f0-9]{4}-4[a-f0-9]{3}-[89ab][a-f0-9]{3}-[a-f0-9]{12}$/i.test(c.key)||c.method!==cashPaymentTerms.method||!Array.isArray(c.lines)||!c.lines.length||c.lines.length>50)throw new PaymentError("Pembayaran harus Tunai dengan produk dan kunci permintaan yang valid.");
  const seen=new Set();const lines=c.lines.map(l=>{if(!l||typeof l.id!=="string"||!l.id||l.id.length>10||seen.has(l.id)||!Number.isInteger(l.qty)||l.qty<1||l.qty>99999999)throw new PaymentError("Jumlah atau identitas produk tidak valid.");seen.add(l.id);return {id:l.id,qty:l.qty,price:money(l.price,true)};}).sort((a,b)=>a.id.localeCompare(b.id));
  return {key:c.key.toLowerCase(),received:money(c.received,true),lines};
 }
@@ -33,8 +33,8 @@ export async function payCash(db:PrismaClient,a:Actor,input:unknown){
   for(const l of c.lines){await tx.$queryRaw`SELECT id_barang FROM public.barang WHERE id_barang=${l.id} FOR UPDATE`;const i=(await tx.$queryRaw<{id_barang:string;jenis_barang:string;harga_jual:Prisma.Decimal|null;stok_saat_ini:Prisma.Decimal}[]>`SELECT id_barang,jenis_barang,harga_jual,stok_saat_ini FROM public.barang WHERE id_barang=${l.id}`)[0];if(!i||i.jenis_barang!=="Produk Hasil"||!i.harga_jual||!i.harga_jual.greaterThan(0))throw new PaymentError("Produk belum memiliki harga jual resmi.");if(!i.harga_jual.equals(l.price))throw new PaymentError("Harga berubah. Perbarui data dan konfirmasi ulang.");if(i.stok_saat_ini.lessThan(l.qty))throw new PaymentError("Stok produk tidak mencukupi.");total=total.plus(new Money(i.harga_jual.toString()).times(l.qty));details.push({id_barang:l.id,jumlah_dipesan:l.qty,jumlah_terjual:l.qty,stok_tersedia:i.stok_saat_ini,harga:i.harga_jual});}
   if(total.greaterThan("9999999999999999.99")||c.received.lessThan(total))throw new PaymentError("Uang diterima kurang atau total melampaui kapasitas.");
   const id=randomBytes(8).toString("hex").slice(0,15),change=c.received.minus(total);
-  // Zero fees are permitted ONLY by the isolated test policy, never a rollout default.
-  await tx.$executeRaw`INSERT INTO public.transaksi (id_transaksi,id_pengguna,tanggal,status_transaksi,metode_pembayaran,total_bayar,pajak_layanan,uang_diterima,kembalian,waktu_bayar,kunci_idempotensi) VALUES (${id},${a.id_pengguna},(CURRENT_TIMESTAMP AT TIME ZONE 'Asia/Jakarta')::date,'Berhasil','TUNAI',${total.toFixed(2)}::numeric,0,${c.received.toFixed(2)}::numeric,${change.toFixed(2)}::numeric,CURRENT_TIMESTAMP,${c.key}::uuid)`;
+  const taxAndService=new Money(cashPaymentTerms.serviceFeeAmount).plus(total.times(cashPaymentTerms.taxRatePercent).div(100)).toFixed(2);
+  await tx.$executeRaw`INSERT INTO public.transaksi (id_transaksi,id_pengguna,tanggal,status_transaksi,metode_pembayaran,total_bayar,pajak_layanan,uang_diterima,kembalian,waktu_bayar,kunci_idempotensi) VALUES (${id},${a.id_pengguna},(CURRENT_TIMESTAMP AT TIME ZONE 'Asia/Jakarta')::date,'Berhasil',${cashPaymentTerms.method},${total.toFixed(2)}::numeric,${taxAndService}::numeric,${c.received.toFixed(2)}::numeric,${change.toFixed(2)}::numeric,CURRENT_TIMESTAMP,${c.key}::uuid)`;
   for(const d of details){await tx.detail_transaksi.create({data:{id_transaksi:id,...d}});const updated=await tx.$executeRaw`UPDATE public.barang SET stok_saat_ini=stok_saat_ini-${d.jumlah_terjual}::numeric WHERE id_barang=${d.id_barang} AND stok_saat_ini>=${d.jumlah_terjual}::numeric`;if(updated!==1)throw new PaymentError("Stok berubah. Pembayaran dibatalkan.");}
   return {id,replayed:false,total:total.toFixed(2),change:change.toFixed(2)};
  },{maxWait:10000,timeout:20000});

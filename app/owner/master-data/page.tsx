@@ -1,6 +1,8 @@
 import { Suspense } from "react";
 import MasterDataClient from "../MasterDataClient";
 import { loadMasterData } from "../../../lib/owner-master";
+
+export const instant = false;
 async function MasterData() {
   let data: Awaited<ReturnType<typeof loadMasterData>> | null = null;
   try { data = await loadMasterData(); } catch { /* Show a safe error without database details. */ }

@@ -1,6 +1,8 @@
 import OwnerDashboardClient from "./OwnerDashboardClient";
 import { readOwnerDashboard } from "../../lib/owner-operations";
 
+export const instant = false;
+
 export default async function OwnerDashboardPage() {
   let data: Awaited<ReturnType<typeof readOwnerDashboard>> | null = null;
   try {

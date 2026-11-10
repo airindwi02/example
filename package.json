@@ -9,6 +9,7 @@
     "start": "next start",
     "lint": "eslint",
     "test:auth": "node --test tests/auth.test.cjs",
+    "test:auth:isolated": "node --conditions=react-server --import tsx scripts/test-auth-schema.cjs",
     "test:worker": "node --conditions=react-server --import tsx --test tests/worker.test.cjs",
     "test:worker:isolated": "node --conditions=react-server --import tsx scripts/test-daily-worker.cjs",
     "test:order": "node --conditions=react-server --import tsx --test tests/order.test.cjs",
@@ -18,6 +19,7 @@
     "test:kasir": "node --conditions=react-server --import tsx --test tests/kasir.test.cjs",
     "test:kasir:isolated": "node --conditions=react-server --import tsx scripts/test-kasir-db.cjs",
     "test:payment": "node --conditions=react-server --import tsx --test tests/payment.test.cjs",
+    "test:payment:isolated:clean": "node --conditions=react-server --import tsx scripts/test-payment-isolated.cjs",
     "test:payment:isolated": "node --conditions=react-server --import tsx scripts/test-payment.cjs"
   },
   "dependencies": {

@@ -284,7 +284,7 @@ export default function OwnerSectionLayout({
             <button className="o-outline" onClick={closeLogout}>
               Batal
             </button>
-            <LogoutLink className="o-primary">
+            <LogoutLink className="o-primary" onBeforeLogout={closeLogout}>
               Ya, keluar
             </LogoutLink>
           </div>

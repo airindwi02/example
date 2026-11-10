@@ -1,6 +1,8 @@
 import { Suspense } from "react";
 import SearchClient from "../SearchClient";
 import { searchOwnerData } from "../../../lib/owner-operations";
+
+export const instant = false;
 export default async function Page({ searchParams }: { searchParams: Promise<{ q?: string | string[] }> }) {
   const params = await searchParams;
   const query = typeof params.q === "string" ? params.q : "";

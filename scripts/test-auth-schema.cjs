@@ -99,7 +99,6 @@ async function main() {
   delete process.env.ALANA_SIGNUP; delete process.env.ALANA_APPROVALS;
   process.env.ALANA_SESSION_SECRET = randomBytes(40).toString('hex');
   process.env.NODE_ENV = 'test';
-  delete process.env.ALANA_REDIS_REST_URL; delete process.env.ALANA_REDIS_REST_TOKEN;
   const h = loader();
   prisma = h.load('lib/prisma.ts').prisma;
   const passwords = h.load('lib/password.ts');

@@ -3,7 +3,6 @@ import { randomBytes } from "node:crypto";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { requireReady, authenticatedAccount } from "../../lib/auth";
-import { allowAttempt } from "../../lib/auth-rate-limit";
 import { createPending, createLocalStaffActive, requestAdditionalOwner, decideAccount, findAccount } from "../../lib/auth-repository";
 import { dashboards, isRole, matchesRole, requestedRole, validateSignup, type SignupInput } from "../../lib/auth-policy";
 import { hashPassword, verifyPassword } from "../../lib/password";
@@ -22,7 +21,6 @@ export async function loginAction(data: FormData): Promise<AuthResult> {
   try {
     await requireReady();
     const username = field(data, "username", 20).trim(), password = field(data, "password", 128), selected = field(data, "role", 20);
-    if (!await allowAttempt("login", username)) return failed();
     const account = username ? await findAccount(username) : null;
     const valid = account ? await verifyPassword(account.password_hash, password) : (await hashPassword(password || randomBytes(32).toString("hex")), false);
     if (!valid || !account || account.status_akun !== "ACTIVE" || !isRole(account.peran) || !matchesRole(account.peran, selected)) {
@@ -38,7 +36,6 @@ export async function signupAction(data: FormData): Promise<AuthResult> {
     if (process.env.ALANA_LOCAL_STAFF_SIGNUP === "enabled" && !localStaffSignupConfigured()) return failed();
     await requireReady();
     const input: SignupInput = { fullName: field(data, "fullName", 50).trim(), username: field(data, "username", 20).trim(), phone: field(data, "phone", 32), email: field(data, "email", 254).trim(), password: field(data, "password", 128), confirmPassword: field(data, "confirmPassword", 128), role: field(data, "role", 20) };
-    if (!await allowAttempt("signup", input.username)) return failed();
     const errors = validateSignup(input);
     if (Object.keys(errors).length) return { ok: false, message: "Periksa kembali data pendaftaran.", errors };
     const role = requestedRole(input.role)!;
@@ -78,7 +75,6 @@ export async function approvalAction(data: FormData): Promise<AuthResult> {
     if (!approvalsEnabled()) return failed();
     const actor = await authenticatedAccount();
     if (!actor || actor.peran !== "Owner") return failed();
-    if (!await allowAttempt("approval", actor.id_pengguna)) return failed();
     const id = field(data, "id", 10), role = field(data, "role", 20), decision = field(data, "decision", 10);
     // Reauthentication is mandatory for all decisions, including requests for Owner access.
     if (!isRole(role) || !["ACTIVE", "REJECTED"].includes(decision) || id === actor.id_pengguna || !await verifyPassword(actor.password_hash, field(data, "ownerPassword", 128))) return failed();

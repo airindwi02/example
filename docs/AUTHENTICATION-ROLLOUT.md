@@ -39,7 +39,7 @@ Index usulan `(status_akun, username)` untuk daftar persetujuan. Unique username
 5. Setelah persetujuan data terpisah, tandai akun Owner awal ACTIVE dan catat keputusan administratif. Pertahankan semua identitas/role. Akun awal lain diaktifkan hanya sesuai persetujuan. Ini bukan pekerjaan otomatis script password.
 6. Lakukan pemeriksaan preflight read-only: kolom/constraint tersedia; Owner awal ACTIVE; password Owner dapat diverifikasi Argon2id melalui input lokal. Jangan mengaktifkan guard sebelum pemeriksaan ini berhasil.
 7. Sediakan `ALANA_SESSION_SECRET` acak minimal 32 karakter melalui secret manager/environment server. Jangan masukkan nilainya ke kode, log, Git, atau NEXT_PUBLIC.
-8. Produksi memerlukan Redis REST bersama: `ALANA_REDIS_REST_URL` (HTTPS) dan `ALANA_REDIS_REST_TOKEN`. Pembatasan gagal tertutup bila layanan bermasalah. Batas: 5 percobaan per identitas dan 30 per sumber dalam 15 menit, terpisah per operasi. Memori lokal hanya untuk pengembangan. Aktifkan `ALANA_TRUST_PROXY=true` hanya jika reverse proxy menimpa header sumber; tanpa itu semua sumber berbagi bucket konservatif.
+8. Implementasi saat ini tidak memakai Redis maupun pembatas percobaan login. Sebelum deployment publik, risiko brute-force harus ditinjau dan mitigasi yang sesuai harus disetujui.
 9. Baru set `ALANA_DATABASE_AUTH=enabled`, build ulang dan restart, lalu jalankan smoke test Owner pada lingkungan HTTPS. Flag build/runtime harus sama. Jika gagal, jangan longgarkan validasi atau menerima password seed. Rollback aktivasi sebelum publikasi, tanpa mengubah data.
 
 ## Login dan persetujuan
@@ -56,7 +56,7 @@ Persetujuan tersedia di `/owner/persetujuan`; hanya Owner ACTIVE, bukan pemohon 
 
 File baru:
 
-- `lib/auth-policy.ts`, `lib/auth-config.ts`, `lib/auth-repository.ts`, `lib/auth-rate-limit.ts`, `lib/auth.ts`, `lib/password.ts`, `lib/session.ts`.
+- `lib/auth-policy.ts`, `lib/auth-config.ts`, `lib/auth-repository.ts`, `lib/auth.ts`, `lib/password.ts`, `lib/session.ts`.
 - `app/_auth/actions.ts`, `app/_auth/AuthMode.tsx`, `app/_auth/DashboardGate.tsx`, `app/_auth/LogoutLink.tsx`.
 - `app/owner/persetujuan/page.tsx`, `ApprovalForm.tsx`, `approval.css` pada direktori yang sama.
 - `proxy.ts`, `scripts/set-initial-passwords.ts`, `tests/auth.test.cjs`, dokumen ini.

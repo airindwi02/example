@@ -1,6 +1,8 @@
 import { connection } from "next/server";
 import ReportClient from "../ReportClient";
 import { readInventoryReport } from "../../../lib/owner-operations";
+
+export const instant = false;
 import { todayDate } from "../../daily-worker/data";
 export default async function Page() {
   await connection();

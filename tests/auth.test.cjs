@@ -99,7 +99,6 @@ test('login requires verified password, active status and matching database role
   const actions = harness({
     'lib/auth': { requireReady: async () => {} },
     'lib/auth-repository': { findAccount: async () => account },
-    'lib/auth-rate-limit': { allowAttempt: async () => true },
     'lib/password': { verifyPassword: async (_, p) => p === 'test-only-input', hashPassword: async () => 'unused' },
     'lib/session': { createSession: async () => { sessions++; } },
   }).load('app/_auth/actions.ts');
@@ -119,7 +118,6 @@ test('signup stores only hash, contact fields and PENDING intent; duplicate reje
     'lib/auth-config': { signupEnabled: () => true, approvalsEnabled: () => true, localStaffSignupConfigured: () => false },
     'lib/auth': { requireReady: async () => {} },
     'lib/auth-repository': { findAccount: async () => duplicate ? {} : null, createPending: async input => { created = input; } },
-    'lib/auth-rate-limit': { allowAttempt: async () => true },
     'lib/password': { hashPassword: async () => 'encoded-test-fixture' },
   }).load('app/_auth/actions.ts');
   const password = randomBytes(16).toString('hex');
@@ -134,7 +132,6 @@ test('approval rejects staff, self-approval and wrong reauthentication', async (
   const actions = harness({
     'lib/auth-config': { signupEnabled: () => true, approvalsEnabled: () => true, localStaffSignupConfigured: () => false },
     'lib/auth': { authenticatedAccount: async () => actor },
-    'lib/auth-rate-limit': { allowAttempt: async () => true },
     'lib/auth-repository': { decideAccount: async () => { writes++; } },
     'lib/password': { verifyPassword: async (_, password) => password === 'local-test-input' },
   }).load('app/_auth/actions.ts');
@@ -174,14 +171,6 @@ test('server guard rejects no session, non-active account, changed password and 
   delete process.env.ALANA_DATABASE_AUTH;
 });
 
-test('rate limiter caps attempts and fails closed without shared backend in production', async () => {
-  const rate = harness().load('lib/auth-rate-limit.ts');
-  for (let i = 0; i < 5; i++) assert.equal(await rate.allowAttempt('test', 'fixture'), true);
-  assert.equal(await rate.allowAttempt('test', 'fixture'), false);
-  const previous = process.env.NODE_ENV; process.env.NODE_ENV = 'production';
-  try { await assert.rejects(rate.allowAttempt('test', 'another')); } finally { if (previous === undefined) delete process.env.NODE_ENV; else process.env.NODE_ENV = previous; }
-});
-
 test('request guard denies direct access and cross-role requests when enabled', async () => {
   process.env.ALANA_DATABASE_AUTH = 'enabled';
   let session = null, account = { peran: 'Kasir', status_akun: 'ACTIVE', password_hash: 'encoded' };
@@ -192,6 +181,8 @@ test('request guard denies direct access and cross-role requests when enabled', 
     'lib/session': { decodeSession: async () => session, credentialVersion: () => 'current' },
   }).load('proxy.ts').proxy;
   const request = { url: 'https://example.invalid/owner', nextUrl: { pathname: '/owner' }, cookies: { get: () => undefined } };
+  request.nextUrl.pathname = '/owner/logo.png'; assert.equal((await proxy(request)).status, 200);
+  request.nextUrl.pathname = '/owner';
   assert.ok((await proxy(request)).location.endsWith('/login'));
   session = { userId: 'x', credentialVersion: 'current' };
   assert.ok((await proxy(request)).location.endsWith('/kasir'));
@@ -261,7 +252,6 @@ test('Owner role selection without administrator setup or approval path never cr
   const actions=harness({
     'lib/auth-config':{signupEnabled:()=>true,approvalsEnabled:()=>false,localStaffSignupConfigured:()=>true,ownerSetupConfigured:()=>false,ownerRequestsConfigured:()=>false},
     'lib/auth':{requireReady:async()=>{}},
-    'lib/auth-rate-limit':{allowAttempt:async()=>true},
     'lib/auth-repository':{createPending:async()=>{writes++;},createLocalStaffActive:async()=>{writes++;},requestAdditionalOwner:async()=>{writes++;}},
   }).load('app/_auth/actions.ts');
   const password=randomBytes(24).toString('base64');

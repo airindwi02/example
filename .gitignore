@@ -48,3 +48,7 @@ next-env.d.ts
 /.baker-db-qa/
 /.kasir-db-qa/
 /.payment-db-qa/
+
+# local database backups and sensitive audit exports
+/backups/database/*.dump
+/backups/database/*.csv

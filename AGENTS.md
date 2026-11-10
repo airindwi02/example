@@ -28,3 +28,13 @@ Retain qualifying friction even if it is later fixed or worked around; record th
 Before the final response, run one reporting pass. If candidates remain, from this file's directory run `npx --no-install next internal agent-feedback-instructions` once without piping or truncating its output. Follow its output or error guidance. If a network sandbox blocks it, retry with network access; if it still returns no output, continue normally.
 
 <!-- END:nextjs-agent-feedback -->
+
+## ALANA PÂTISSERIE project context
+
+- Implementasi harus mengikuti ERD, kebutuhan role, laporan Modul 0–3, instruksi Modul 4, dan desain Figma yang sudah disetujui.
+- Role aplikasi: Owner, Kasir, Baker/Barista, dan Daily Worker. Semua operasi server wajib memeriksa akun ACTIVE dan role yang sesuai.
+- PostgreSQL lokal `apsi_db` adalah sumber data awal; Neon `neondb` adalah target cloud. Jangan menjalankan migrasi, seed, reset, atau deployment tanpa persetujuan eksplisit dan backup/restore rehearsal.
+- Gunakan Prisma untuk akses data, transaksi database untuk operasi stok/transaksi majemuk, Argon2id untuk password, dan iron-session untuk session.
+- Jangan menampilkan connection string, password, hash, atau secret. Pertahankan akun PENDING dan seluruh riwayat.
+- Pertahankan desain saat memperbaiki application logic. Perubahan CSS atau struktur visual harus memiliki kebutuhan desain yang jelas.
+- Checklist sebelum deployment berada di `docs/MODUL-4-PREDEPLOY-CHECKLIST.md`.

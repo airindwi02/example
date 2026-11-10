@@ -25,7 +25,7 @@ Secret sesi hanya dibuat di memori proses; jangan mencetaknya. DATABASE_URL teta
 
 Setelah pendaftaran berhasil, gunakan username/password yang Anda buat pada /login dan pilih role yang sama. Owner lama tetap tidak dapat Login sampai password/statusnya disiapkan melalui prosedur khusus. Jangan memakai akun seed untuk alur ini. Tidak perlu menjalankan SET OWNER PASSWORD untuk akun yang dibuat melalui Sign Up.
 
-Jangan memakai `npm run build`/`npm start` untuk mode ACTIVE otomatis ini: production sengaja menolaknya. Gunakan terminal khusus sesi lokal; tutup terminal setelah selesai agar flag sementara tidak terbawa. Mengganti secret sesi saat restart akan membatalkan cookie sesi lama. Session HttpOnly, pemeriksaan status/role server, guard dashboard, Logout, dan pembatasan percobaan tetap berlaku. Batas percobaan lokal berlaku per identitas dan sumber selama 15 menit; jangan mengatasinya dengan melepas validasi.
+Jangan memakai `npm run build`/`npm start` untuk mode ACTIVE otomatis ini: production sengaja menolaknya. Gunakan terminal khusus sesi lokal; tutup terminal setelah selesai agar flag sementara tidak terbawa. Mengganti secret sesi saat restart akan membatalkan cookie sesi lama. Session HttpOnly, pemeriksaan status/role server, guard dashboard, dan Logout tetap berlaku. Implementasi pembatas percobaan login sudah dihapus; risiko brute-force harus ditinjau kembali sebelum deployment publik.
 
 ## Pengujian
 

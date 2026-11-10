@@ -281,7 +281,7 @@ export default function KasirShell({ children }: { children: ReactNode }) {
             <button className="k-outline" onClick={closeLogout}>
               Batal
             </button>
-            <LogoutLink className="k-primary">
+            <LogoutLink className="k-primary" onBeforeLogout={closeLogout}>
               Ya, keluar
             </LogoutLink>
           </div>

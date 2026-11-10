@@ -1,3 +1,29 @@
 {
-    "python.terminal.useEnvFile": true
+    "python.terminal.useEnvFile": true,
+    "files.exclude": {
+        "**/.next": true,
+        "**/.next-auth-browser-test": true,
+        "**/.design-reference": true,
+        "**/.owner-qa": true,
+        "**/.worker-qa": true,
+        "**/.kasir-qa": true,
+        "**/.baker-qa": true,
+        "**/.login-qa": true,
+        "**/.owner-master-qa": true,
+        "**/.worker-db-qa": true,
+        "**/.baker-db-qa": true,
+        "**/.kasir-db-qa": true,
+        "**/.payment-db-qa": true,
+        "**/backups": true,
+        "**/tmp-visual-ref": true,
+        "BAKER-*.md": true,
+        "DAILY-WORKER-*.md": true,
+        "KASIR-*.md": true,
+        "LOGIN-*.md": true,
+        "OWNER-*.md": true,
+        "design-qa.md": true,
+        "**/node_modules": true,
+        "**/app/generated": true,
+        "**/*.tsbuildinfo": true
+    }
 }

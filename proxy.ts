@@ -7,6 +7,11 @@ import { credentialVersion, decodeSession } from "./lib/session";
 
 export async function proxy(request: NextRequest) {
   if (!databaseAuthEnabled()) return NextResponse.next();
+  // These files are public assets stored below role-named folders. They must
+  // not be redirected to a dashboard when Next/Image fetches them without a session.
+  if (/\.(?:avif|gif|ico|jpe?g|png|svg|webp|woff2?)$/i.test(request.nextUrl.pathname)) {
+    return NextResponse.next();
+  }
   try {
     await requireReady();
     const session = await decodeSession(request.cookies.get("alana_session")?.value);

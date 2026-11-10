@@ -1,5 +1,7 @@
 import LowStockClient from "../LowStockClient";
 import { loadMasterData } from "../../../lib/owner-master";
+
+export const instant = false;
 export default async function Page() {
   let data: Awaited<ReturnType<typeof loadMasterData>> | null = null;
   try {

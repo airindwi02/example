@@ -43,7 +43,7 @@ function LogoutDialog({close}:{close:()=>void}){
   document.addEventListener("keydown",onKey);
   return ()=>{document.removeEventListener("keydown",onKey);previous?.focus();};
  },[close]);
- return <div className="w-modal-shade" onClick={close}><div ref={ref} className="w-logout-dialog" role="dialog" aria-modal="true" aria-labelledby="worker-logout-title" onClick={e=>e.stopPropagation()}><span className="w-logout-icon"><LogOut size={25}/></span><h2 id="worker-logout-title">Yakin ingin keluar?</h2><p>Anda akan keluar dari akun Daily Worker<br/>dan kembali ke halaman login.</p><div className="w-dialog-actions"><button className="w-outline" onClick={close}>Batal</button><LogoutLink className="w-primary">Ya, keluar</LogoutLink></div></div></div>;
+ return <div className="w-modal-shade" onClick={close}><div ref={ref} className="w-logout-dialog" role="dialog" aria-modal="true" aria-labelledby="worker-logout-title" onClick={e=>e.stopPropagation()}><span className="w-logout-icon"><LogOut size={25}/></span><h2 id="worker-logout-title">Yakin ingin keluar?</h2><p>Anda akan keluar dari akun Daily Worker<br/>dan kembali ke halaman login.</p><div className="w-dialog-actions"><button className="w-outline" onClick={close}>Batal</button><LogoutLink className="w-primary" onBeforeLogout={close}>Ya, keluar</LogoutLink></div></div></div>;
 }
 function Shell({children}:{children:React.ReactNode}){
  const pathname=usePathname(),router=useRouter();const {state}=useWorker();

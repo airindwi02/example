@@ -2,6 +2,8 @@ import { Suspense } from "react";
 import { approvalsEnabled } from "../../../lib/auth-config";
 import { authenticatedAccount } from "../../../lib/auth";
 import { pendingAccounts } from "../../../lib/auth-repository";
+
+export const instant = false;
 import ApprovalForm from "./ApprovalForm";
 import "./approval.css";
 async function Requests() {

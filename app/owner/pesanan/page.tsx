@@ -1,6 +1,8 @@
 import { Suspense } from "react";
 import { requireMasterOwner } from "../../../lib/owner-master";
 import { prisma } from "../../../lib/prisma";
+
+export const instant = false;
 import { readOrders } from "../../../lib/order-service";
 import OrdersClient from "./OrdersClient";
 

@@ -1,6 +1,8 @@
 import { Suspense } from "react";
 import HistoryClient from "../HistoryClient";
 import { readOwnerMovements } from "../../../lib/owner-operations";
+
+export const instant = false;
 export default async function Page() {
   let movements: Awaited<ReturnType<typeof readOwnerMovements>> | null = null;
   try {
